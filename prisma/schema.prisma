@@ -22,13 +22,13 @@ model Shipment {
   id               String   @id @db.VarChar(225)
   Ship_from        String   @db.VarChar(225)
   Ship_destination String   @db.VarChar(225)
-  Product          String?  @db.VarChar(225)
-  Capacity         Int?
+  Product          String[]  @db.VarChar(225)
+  Capacity         Int[]
 }
 
 model Detail {
   id               String   @id @db.VarChar(225)
-  Loading          String?  @db.Text
-  Unloading        String?  @db.Text
-  Daily_activities String?  @db.Text
+  Loading          String[]  @db.Text
+  Unloading        String[]  @db.Text
+  Daily_activities String[]  @db.Text
 }

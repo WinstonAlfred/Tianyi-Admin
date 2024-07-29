@@ -9,7 +9,7 @@ const DetailsTable = async () => {
   return (  
     <div>
       <div className="mb-4">
-        <CreateButton targetEntity='detail'/>
+        <CreateButton targetEntity='details'/>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-xs md:text-sm text-left text-gray-500">
@@ -43,7 +43,7 @@ const DetailsTable = async () => {
                 </td>
                 <td className="py-2 px-2 md:py-3 md:px-4">
                   <div className="flex justify-center gap-2">
-                  <EditButton id={detail.id} entityType='detail'/>
+                  <EditButton id={detail.id} entityType='details'/>
                   <DeleteButton id={detail.id} onDelete={deleteDetail}/>
                   </div>
                 </td>

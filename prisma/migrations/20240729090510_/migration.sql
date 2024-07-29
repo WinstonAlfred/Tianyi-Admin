@@ -10,8 +10,8 @@ CREATE TABLE "Shipment" (
     "id" VARCHAR(225) NOT NULL,
     "Ship_from" VARCHAR(225) NOT NULL,
     "Ship_destination" VARCHAR(225) NOT NULL,
-    "Product" VARCHAR(225),
-    "Capacity" INTEGER,
+    "Product" VARCHAR(225)[],
+    "Capacity" INTEGER[],
 
     CONSTRAINT "Shipment_pkey" PRIMARY KEY ("id")
 );
@@ -19,9 +19,9 @@ CREATE TABLE "Shipment" (
 -- CreateTable
 CREATE TABLE "Detail" (
     "id" VARCHAR(225) NOT NULL,
-    "Loading" TEXT,
-    "Unloading" TEXT,
-    "Daily_activities" TEXT,
+    "Loading" TEXT[],
+    "Unloading" TEXT[],
+    "Daily_activities" TEXT[],
 
     CONSTRAINT "Detail_pkey" PRIMARY KEY ("id")
 );
