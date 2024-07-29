@@ -1,0 +1,34 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model Ship {
+  id               String     @id @db.VarChar(225)
+}
+
+model Shipment {
+  id               String   @id @db.VarChar(225)
+  Ship_from        String   @db.VarChar(225)
+  Ship_destination String   @db.VarChar(225)
+  Product          String?  @db.VarChar(225)
+  Capacity         Int?
+}
+
+model Detail {
+  id               String   @id @db.VarChar(225)
+  Loading          String?  @db.Text
+  Unloading        String?  @db.Text
+  Daily_activities String?  @db.Text
+}
