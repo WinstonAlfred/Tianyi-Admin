@@ -1,5 +1,7 @@
 import React from 'react';
 import { getShipments } from '@/lib/get/getShipment';
+import { CreateButton, DeleteButton, EditButton } from '../buttons';
+import { deleteShipment } from '@/lib/action/shipmentAction';
 
 const ShipmentTable = async () => {
   const shipment = await getShipments();
@@ -7,7 +9,7 @@ const ShipmentTable = async () => {
   return (  
     <div>
       <div className="mb-4">
-        insert create button here
+      <CreateButton targetEntity='shipment'/>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-xs md:text-sm text-left text-gray-500">
@@ -24,12 +26,12 @@ const ShipmentTable = async () => {
           </thead>
           <tbody>
           {shipment.map((shipment, index) => (
-              <tr key={shipment.Shipment_id} className="bg-white border-b hover:bg-gray-50">
+              <tr key={shipment.id} className="bg-white border-b hover:bg-gray-50">
                 <td className="py-2 px-2 md:py-3 md:px-4 font-medium text-gray-900">
                   {index + 1}
                 </td>
                 <td className="py-2 px-2 md:py-3 md:px-4">
-                  {shipment.Shipment_id}
+                  {shipment.id}
                 </td>
                 <td className="py-2 px-2 md:py-3 md:px-4">
                   {shipment.Ship_from}
@@ -45,7 +47,8 @@ const ShipmentTable = async () => {
                 </td>
                 <td className="py-2 px-2 md:py-3 md:px-4">
                   <div className="flex justify-center gap-2">
-                    Edit and delete button here
+                  <EditButton id={shipment.id} entityType='shipment'/>
+                  <DeleteButton id={shipment.id} onDelete={deleteShipment}/>
                   </div>
                 </td>
               </tr>

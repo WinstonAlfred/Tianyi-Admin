@@ -1,5 +1,7 @@
 import React from 'react';
 import { getDetails } from '@/lib/get/getDetails';
+import { CreateButton, DeleteButton, EditButton } from '../buttons';
+import { deleteDetail } from '@/lib/action/detailAction';
 
 const DetailsTable = async () => {
   const detail = await getDetails();
@@ -7,7 +9,7 @@ const DetailsTable = async () => {
   return (  
     <div>
       <div className="mb-4">
-        insert create button here
+        <CreateButton targetEntity='detail'/>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-xs md:text-sm text-left text-gray-500">
@@ -23,9 +25,12 @@ const DetailsTable = async () => {
           </thead>
           <tbody>
           {detail.map((detail, index) => (
-              <tr key={detail.Detail_id} className="bg-white border-b hover:bg-gray-50">
+              <tr key={detail.id} className="bg-white border-b hover:bg-gray-50">
                 <td className="py-2 px-2 md:py-3 md:px-4 font-medium text-gray-900">
                   {index + 1}
+                </td>
+                <td className="py-2 px-2 md:py-3 md:px-4">
+                  {detail.id}
                 </td>
                 <td className="py-2 px-2 md:py-3 md:px-4">
                   {detail.Loading}
@@ -38,7 +43,8 @@ const DetailsTable = async () => {
                 </td>
                 <td className="py-2 px-2 md:py-3 md:px-4">
                   <div className="flex justify-center gap-2">
-                    Edit and delete button here
+                  <EditButton id={detail.id} entityType='detail'/>
+                  <DeleteButton id={detail.id} onDelete={deleteDetail}/>
                   </div>
                 </td>
               </tr>

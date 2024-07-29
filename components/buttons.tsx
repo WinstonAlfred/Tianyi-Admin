@@ -107,7 +107,7 @@ export const CreateButton: React.FC<CreateButtonProps> = ({ targetEntity }) => {
       ) : (
         <FaPlus className="mr-2" /> // Plus icon
       )}
-      <span>{isLoading ? "Creating..." : `Create New ${targetEntity}`}</span>
+      <span>{isLoading ? "Creating..." : `Create new ${targetEntity}`}</span>
     </button>
   );
 };

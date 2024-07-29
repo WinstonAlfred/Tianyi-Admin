@@ -23,10 +23,10 @@ export const createShip = async (prevState: any, formData: FormData) => {
         data: validatedFields.data,
       });
     } catch (error) {
-      return { message: "Failed to create activities" };
+      return { message: "Failed to create ship" };
     }
-    revalidatePath("/activities");
-    redirect("/activities");
+    revalidatePath("/ship");
+    redirect("/ship");
   };
 
 
@@ -49,7 +49,7 @@ export const createShip = async (prevState: any, formData: FormData) => {
         where: { id },
       });
     } catch (error) {
-      return { message: "Failed to update activities" };
+      return { message: "Failed to update ships" };
     }
     revalidatePath("/ship");
     redirect("/ship");
@@ -60,10 +60,10 @@ export const createShip = async (prevState: any, formData: FormData) => {
       await prisma.ship.delete({
         where: { id },
       });
-      revalidatePath("/activities");
+      revalidatePath("/ship");
     } catch (error) {
-      console.error("Failed to delete shipment:", error);
-      throw new Error("Failed to delete shipment");
+      console.error("Failed to delete ships:", error);
+      throw new Error("Failed to delete ships");
     }
   };
   
