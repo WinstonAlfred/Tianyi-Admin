@@ -1,8 +1,11 @@
+import DetailForm from '@/components/create_form/create-details'
 import React from 'react'
 
 const page = () => {
   return (
-    <div>page</div>
+    <div>
+      <DetailForm />
+    </div>
   )
 }
 
