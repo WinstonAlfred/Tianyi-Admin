@@ -1,6 +1,5 @@
 'use client';
 
-
 import { createShip } from "@/lib/action/shipAction";
 import { useFormState } from "react-dom";
 import { SubmitButton } from "@/components/buttons";

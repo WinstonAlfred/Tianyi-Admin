@@ -55,15 +55,24 @@ export const createShipment = async (prevState: any, formData: FormData) => {
   redirect("/shipment");
 };
 
-export const updateShip = async (
-  id: string,
-  prevState: any,
-  formData: FormData
-) => {
+
+export const deleteShipment = async (id: string): Promise<void> => {
+  try {
+    await prisma.shipment.delete({
+      where: { id },
+    });
+    revalidatePath("/shipment");
+  } catch (error) {
+    console.error("Failed to delete shipment:", error);
+    throw new Error("Failed to delete shipment");
+  }
+};
+
+export const updateShipment = async (id: string, prevState: any, formData: FormData) => {
   const rawData = Object.fromEntries(formData.entries());
   
   const shipmentData: ShipmentInput = {
-    id: rawData.id as string,
+    id: id, // Use the id passed to the function
     Ship_from: rawData.Ship_from as string,
     Ship_destination: rawData.Ship_destination as string,
   };
@@ -100,14 +109,4 @@ export const updateShip = async (
   redirect("/shipment");
 };
 
-export const deleteShipment = async (id: string): Promise<void> => {
-  try {
-    await prisma.shipment.delete({
-      where: { id },
-    });
-    revalidatePath("/shipment");
-  } catch (error) {
-    console.error("Failed to delete shipment:", error);
-    throw new Error("Failed to delete shipment");
-  }
-};
+

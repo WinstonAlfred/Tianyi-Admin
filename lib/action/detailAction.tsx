@@ -45,6 +45,22 @@ export const createDetail = async (prevState: any, formData: FormData) => {
     redirect("/details");
 };
 
+
+export const deleteDetail = async (id: string): Promise<void> => {
+    try {
+        await prisma.detail.delete({
+            where: { id },
+        });
+        revalidatePath("/details");
+    } catch (error) {
+        console.error("Failed to delete detail:", error);
+        throw new Error("Failed to delete detail");
+    }
+};
+
+
+
+
 export const updateDetail = async (
     id: string,
     prevState: any,
@@ -81,16 +97,4 @@ export const updateDetail = async (
 
     revalidatePath("/details");
     redirect("/details");
-};
-
-export const deleteDetail = async (id: string): Promise<void> => {
-    try {
-        await prisma.detail.delete({
-            where: { id },
-        });
-        revalidatePath("/details");
-    } catch (error) {
-        console.error("Failed to delete detail:", error);
-        throw new Error("Failed to delete detail");
-    }
 };
