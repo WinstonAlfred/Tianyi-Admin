@@ -35,6 +35,22 @@ const DetailForm: React.FC = () => {
     });
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>, setter: FieldSetter, index: number) => {
+    if (e.key === 'Enter' && e.shiftKey) {
+      e.preventDefault();
+      const textarea = e.currentTarget;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const value = textarea.value;
+      const newValue = value.substring(0, start) + '\n' + value.substring(end);
+      handleFieldChange(setter, index, newValue);
+      // Set cursor position after inserted newline
+      setTimeout(() => {
+        textarea.selectionStart = textarea.selectionEnd = start + 1;
+      }, 0);
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -48,13 +64,14 @@ const DetailForm: React.FC = () => {
     <div className="mb-5">
       <label className="block text-sm font-medium text-gray-900">{label}</label>
       {fields && fields.map((field, index) => (
-        <div key={index} className="flex items-center space-x-2 mt-2">
-          <input
-            type="text"
+        <div key={index} className="flex items-start space-x-2 mt-2">
+          <textarea
             value={field}
             onChange={(e) => handleFieldChange(setter, index, e.target.value)}
+            onKeyDown={(e) => handleKeyDown(e, setter, index)}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             placeholder={`${label}...`}
+            rows={3}
           />
           <button
             type="button"
