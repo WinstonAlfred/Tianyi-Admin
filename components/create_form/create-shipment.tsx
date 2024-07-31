@@ -8,10 +8,10 @@ import { PlusCircle, XCircle } from 'lucide-react';
 
 const ShipmentForm = () => {
   const [state, formAction] = useFormState(createShipment, null);
-  const [products, setProducts] = useState([{ Product: '', Capacity: '' }]);
+  const [products, setProducts] = useState([{ Product: '', Capacity: '', Description: '' }]);
 
   const addProduct = () => {
-    setProducts([...products, { Product: '', Capacity: '' }]);
+    setProducts([...products, { Product: '', Capacity: '', Description: '' }]);
   };
 
   const removeProduct = (index: number) => {
@@ -31,6 +31,7 @@ const ShipmentForm = () => {
     products.forEach((product, index) => {
       formData.append(`Product`, product.Product);
       formData.append(`Capacity`, product.Capacity);
+      formData.append(`Description`, product.Description);
     });
     formAction(formData);
   };
@@ -38,6 +39,7 @@ const ShipmentForm = () => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
+
         <div className="mb-5">
           <label
             htmlFor="id"
@@ -54,6 +56,27 @@ const ShipmentForm = () => {
           />
           <div id="id-error" aria-live="polite" aria-atomic="true">
             <p className="mt-2 text-sm text-red-500">{state?.Error?.id}</p>
+          </div>
+        </div>
+
+        <div className="mb-5">
+          <label
+            htmlFor="Status"
+            className="block text-sm font-medium text-gray-900"
+          >
+            Shipment Status
+          </label>
+          <select
+            name="Status"
+            id="Status"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            >
+            <option value="">...</option>
+            <option value="GO TO PROYEK">Go To Proyek</option>
+            <option value="RETURN FROM PROYEK">Return From Proyek</option>
+          </select>
+          <div id="Status-error" aria-live="polite" aria-atomic="true">
+            <p className="mt-2 text-sm text-red-500">{state?.Error?.Status}</p>
           </div>
         </div>
 
@@ -129,6 +152,24 @@ const ShipmentForm = () => {
                 placeholder="Product Capacity..."
               />
             </div>
+
+            <div className="flex-grow">
+              <label
+                htmlFor={`Description_${index}`}
+                className="block text-sm font-medium text-gray-900"
+              >
+                Description
+              </label>
+              <input
+                type="text"
+                id={`Description_${index}`}
+                value={product.Description}
+                onChange={(e) => handleProductChange(index, 'Description', e.target.value)}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                placeholder="Product Description..."
+              />
+            </div>
+            
             {index > 0 && (
               <button
                 type="button"

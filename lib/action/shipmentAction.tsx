@@ -7,10 +7,12 @@ import { redirect } from "next/navigation";
 
 const ShipmentSchema = z.object({
   id: z.string(),
+  Status: z.string(),
   Ship_from: z.string(),
   Ship_destination: z.string(),
   Product: z.array(z.string()).optional(),
   Capacity: z.array(z.number().int()).optional(),
+  Description: z.array(z.string()).optional(),
 });
 
 type ShipmentInput = z.infer<typeof ShipmentSchema>;
@@ -20,12 +22,14 @@ export const createShipment = async (prevState: any, formData: FormData) => {
   
   const shipmentData: ShipmentInput = {
     id: rawData.id as string,
+    Status: rawData.Status as string,
     Ship_from: rawData.Ship_from as string,
     Ship_destination: rawData.Ship_destination as string,
   };
 
   const products = formData.getAll('Product');
   const capacities = formData.getAll('Capacity');
+  const descriptions =  formData.getAll('Description');
 
   if (products.length > 0) {
     shipmentData.Product = products as string[];
@@ -33,6 +37,10 @@ export const createShipment = async (prevState: any, formData: FormData) => {
 
   if (capacities.length > 0) {
     shipmentData.Capacity = capacities.map(value => parseInt(value as string, 10));
+  }
+
+  if (descriptions.length > 0) {
+    shipmentData.Description = descriptions as string[];
   }
 
   const validatedFields = ShipmentSchema.safeParse(shipmentData);
@@ -73,12 +81,14 @@ export const updateShipment = async (id: string, prevState: any, formData: FormD
   
   const shipmentData: ShipmentInput = {
     id: id, // Use the id passed to the function
+    Status: rawData.Status as string,
     Ship_from: rawData.Ship_from as string,
     Ship_destination: rawData.Ship_destination as string,
   };
 
   const products = formData.getAll('Product');
   const capacities = formData.getAll('Capacity');
+  const descriptions =  formData.getAll('Description');
 
   if (products.length > 0) {
     shipmentData.Product = products as string[];
@@ -86,6 +96,10 @@ export const updateShipment = async (id: string, prevState: any, formData: FormD
 
   if (capacities.length > 0) {
     shipmentData.Capacity = capacities.map(value => parseInt(value as string, 10));
+  }
+
+  if (descriptions.length > 0) {
+    shipmentData.Description = descriptions as string[];
   }
 
   const validatedFields = ShipmentSchema.safeParse(shipmentData);

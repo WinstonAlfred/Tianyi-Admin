@@ -9,29 +9,32 @@ import { PlusCircle, XCircle } from 'lucide-react';
 interface EditShipmentFormProps {
   shipment: {
     id: string;
+    Status: string;
     Ship_from: string;
     Ship_destination: string;
     Product?: string[];
     Capacity?: number[];
+    Description?: string[];
   };
 }
 
 const EditShipmentForm: React.FC<EditShipmentFormProps> = ({ shipment }) => {
   const [state, formAction] = useFormState(updateShipment.bind(null, shipment.id), null);
-  const [products, setProducts] = useState<{ Product: string; Capacity: string }[]>([]);
+  const [products, setProducts] = useState<{ Product: string; Capacity: string; Description: string }[]>([]);
 
   useEffect(() => {
-    if (shipment.Product && shipment.Capacity) {
+    if (shipment.Product && shipment.Capacity && shipment.Description) {
       const initialProducts = shipment.Product.map((product, index) => ({
         Product: product,
-        Capacity: shipment.Capacity?.[index]?.toString() || ''
+        Capacity: shipment.Capacity?.[index]?.toString() || '',
+        Description: shipment.Description?.[index] || ''
       }));
       setProducts(initialProducts);
     }
   }, [shipment]);
 
   const addProduct = () => {
-    setProducts([...products, { Product: '', Capacity: '' }]);
+    setProducts([...products, { Product: '', Capacity: '', Description: '' }]);
   };
 
   const removeProduct = (index: number) => {
@@ -51,6 +54,7 @@ const EditShipmentForm: React.FC<EditShipmentFormProps> = ({ shipment }) => {
     products.forEach((product, index) => {
       formData.append(`Product`, product.Product);
       formData.append(`Capacity`, product.Capacity);
+      formData.append(`Description`, product.Description);
     });
     formAction(formData);
   };
@@ -76,6 +80,28 @@ const EditShipmentForm: React.FC<EditShipmentFormProps> = ({ shipment }) => {
           />
           <div id="id-error" aria-live="polite" aria-atomic="true">
             <p className="mt-2 text-sm text-red-500">{state?.Error?.id}</p>
+          </div>
+        </div>
+
+        <div className="mb-5">
+          <label
+            htmlFor="Status"
+            className="block text-sm font-medium text-gray-900"
+          >
+            Shipment Status
+          </label>
+          <select
+            name="Status"
+            id="Status"
+            defaultValue={shipment.Status}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          >
+            <option value="">Select a status...</option>
+            <option value="GO TO PROYEK">Go To Proyek</option>
+            <option value="RETURN FROM PROYEK">Return From Proyek</option>
+          </select>
+          <div id="Status-error" aria-live="polite" aria-atomic="true">
+            <p className="mt-2 text-sm text-red-500">{state?.Error?.Status}</p>
           </div>
         </div>
 
@@ -151,6 +177,22 @@ const EditShipmentForm: React.FC<EditShipmentFormProps> = ({ shipment }) => {
                 onChange={(e) => handleProductChange(index, 'Capacity', e.target.value)}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 placeholder="Product Capacity..."
+              />
+            </div>
+            <div className="flex-grow">
+              <label
+                htmlFor={`Description_${index}`}
+                className="block text-sm font-medium text-gray-900"
+              >
+                Description
+              </label>
+              <input
+                type="text"
+                id={`Description_${index}`}
+                value={product.Description}
+                onChange={(e) => handleProductChange(index, 'Description', e.target.value)}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                placeholder="Product Description..."
               />
             </div>
             {index > 0 && (
