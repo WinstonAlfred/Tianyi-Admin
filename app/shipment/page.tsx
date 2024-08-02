@@ -23,13 +23,15 @@ const Shipments = async ({
 
   return (
     <div className="max-w-screen-xl mx-auto mt-5">
-      <div className="flex items-center justify-between gap-1 mb-5">
+      <div className="flex flex-col items-start gap-1 mb-5 w-full">
+        <CreateButton targetEntity="shipment" /> 
         <Search />
-        <CreateButton targetEntity="shipment" />
       </div>
+
       <Suspense key={query + currentPage} fallback={<ShipmentSkeleton />}>
-        <ShipmentTable query={query} currentPage={currentPage} />
+      <ShipmentTable query={query} currentPage={currentPage} />
       </Suspense>
+
       <div className="flex justify-center mt-4">
         <Pagination totalPages={totalPages} />
       </div>

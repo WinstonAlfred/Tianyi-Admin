@@ -22,13 +22,15 @@ const Details = async ({
 
   return (
     <div className="max-w-screen-xl mx-auto mt-5">
-      <div className="flex items-center justify-between gap-1 mb-5">
+      <div className="flex flex-col items-start gap-1 mb-5 w-full">
+        <CreateButton targetEntity="details" /> 
         <Search />
-        <CreateButton targetEntity="details" />
       </div>
-      <Suspense key={query + currentPage} fallback={<DetailSkeleton />}>
+
+        <Suspense key={query + currentPage} fallback={<DetailSkeleton />}>
         <DetailsTable query={query} currentPage={currentPage} />
-      </Suspense>
+        </Suspense>
+
       <div className="flex justify-center mt-4">
         <Pagination totalPages={totalPages} />
       </div>
