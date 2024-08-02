@@ -1,14 +1,36 @@
-import { prisma } from "../prisma";
+import { prisma } from '@/lib/prisma';
+import { Prisma } from '@prisma/client';
 
-export async function getDetails() {
-    try {
-        const details = await prisma.detail.findMany();
-        return details;
-    } catch (error) {
-        console.error('Error fetching details', error);
-        throw error;
+export const getDetails = async (query?: string, offset?: number, limit?: number) => {
+  try {
+    const where: Prisma.DetailWhereInput = query
+      ? {
+          OR: [
+            { id: { contains: query, mode: 'insensitive' } },
+            { Loading: { hasSome: [query] } },
+            { Unloading: { hasSome: [query] } },
+            { Daily_activities: { hasSome: [query] } },
+          ],
+        }
+      : {};
+
+    const details = await prisma.detail.findMany({
+      where,
+      skip: offset,
+      take: limit,
+      orderBy: { id: 'asc' },
+    });
+
+    return details;
+  } catch (error) {
+    console.error('Error fetching details:', error);
+    if (error instanceof Error) {
+      throw new Error(`Failed to fetch details: ${error.message}`);
+    } else {
+      throw new Error('Failed to fetch details: Unknown error');
     }
-}
+  }
+};
 
 export async function getDetailsById (id: string) {
     try {

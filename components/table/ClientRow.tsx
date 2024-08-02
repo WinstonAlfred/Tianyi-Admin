@@ -51,7 +51,7 @@ const ClientRow: React.FC<ClientRowProps> = ({ detail, index }) => {
     <>
       <tr className="bg-white border-b hover:bg-gray-50 transition duration-150 ease-in-out">
         <td className="py-4 px-4 font-medium text-gray-900 align-top">
-          {index + 1}
+          {index}
         </td>
         <td className="py-4 px-4 font-medium text-gray-900 align-top">
           {detail.id}

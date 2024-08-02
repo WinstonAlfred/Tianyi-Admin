@@ -1,12 +1,39 @@
-import DetailsTable from '@/components/table/details-table'
-import React from 'react'
+import DetailsTable from "@/components/table/details-table";
+import Search from "@/components/search";
+import Pagination from "@/components/pagination";
+import { CreateButton } from "@/components/buttons";
+import { getDetailPages } from "@/lib/action/detailAction";
+import { Suspense } from "react";
+import { DetailSkeleton } from "@/components/skeleton/detailSkeleton";
 
-const page = () => {
+export const dynamic = 'force-dynamic';
+
+const Details = async ({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+    page?: string;
+  };
+}) => {
+  const query = searchParams?.query || "";
+  const currentPage = Number(searchParams?.page) || 1;
+  const totalPages = await getDetailPages(query);
+
   return (
-    <div>
-      <DetailsTable />
+    <div className="max-w-screen-xl mx-auto mt-5">
+      <div className="flex items-center justify-between gap-1 mb-5">
+        <Search />
+        <CreateButton targetEntity="details" />
+      </div>
+      <Suspense key={query + currentPage} fallback={<DetailSkeleton />}>
+        <DetailsTable query={query} currentPage={currentPage} />
+      </Suspense>
+      <div className="flex justify-center mt-4">
+        <Pagination totalPages={totalPages} />
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default Details;

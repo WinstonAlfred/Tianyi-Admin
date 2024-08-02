@@ -12,6 +12,8 @@ const DetailSchema = z.object({
     Daily_activities: z.array(z.string()).optional(),
 });
 
+const ITEMS_PER_PAGE = 10; // Adjust this value as needed
+
 export const createDetail = async (prevState: any, formData: FormData) => {
     // Extract arrays from FormData
     const loading = formData.getAll('Loading');
@@ -97,4 +99,43 @@ export const updateDetail = async (
 
     revalidatePath("/details");
     redirect("/details");
+};
+
+
+
+export const getDetailPages = async (query: string) => {
+  try {
+    const details = await prisma.detail.count({
+      where: {
+        OR: [
+          {
+            id: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+          {
+            Loading: {
+              hasSome: [query],
+            },
+          },
+          {
+            Unloading: {
+              hasSome: [query],
+            },
+          },
+          {
+            Daily_activities: {
+              hasSome: [query],
+            },
+          },
+        ],
+      },
+    });
+    const totalPages = Math.ceil(Number(details) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error("Failed to fetch detail data:", error);
+    throw new Error("Failed to fetch detail data");
+  }
 };

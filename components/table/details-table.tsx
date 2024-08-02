@@ -1,7 +1,5 @@
-// DetailsTable.tsx
 import React from 'react';
 import { getDetails } from '@/lib/get/getDetails';
-import { CreateButton } from '../buttons';
 import ClientRow from './ClientRow';
 
 interface Detail {
@@ -11,14 +9,19 @@ interface Detail {
   Daily_activities: string[];
 }
 
-const DetailsTable: React.FC = async () => {
-  const details: Detail[] = await getDetails();
+interface DetailsTableProps {
+  query: string;
+  currentPage: number;
+}
+
+const ITEMS_PER_PAGE = 10; // Adjust this value as needed
+
+const DetailsTable: React.FC<DetailsTableProps> = async ({ query, currentPage }) => {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+  const details: Detail[] = await getDetails(query, offset, ITEMS_PER_PAGE);
 
   return (  
     <div className="bg-white shadow-md rounded-lg overflow-hidden">
-      <div className="p-4 border-b border-gray-200">
-        <CreateButton targetEntity='details'/>
-      </div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-left text-gray-500">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50">
@@ -33,7 +36,11 @@ const DetailsTable: React.FC = async () => {
           </thead>
           <tbody>
             {details.map((detail, index) => (
-              <ClientRow key={detail.id} detail={detail} index={index} />
+              <ClientRow 
+                key={detail.id} 
+                detail={detail} 
+                index={offset + index + 1} 
+              />
             ))}
           </tbody>
         </table>
