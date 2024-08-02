@@ -25,9 +25,9 @@ const DetailsTable: React.FC = async () => {
             <tr>
               <th className="py-3 px-4">#</th>
               <th className="py-3 px-4">Detail ID</th>
-              <th className="py-3 px-4">Loading</th>
-              <th className="py-3 px-4">Unloading</th>
-              <th className="py-3 px-4">Daily Activities</th>
+              <th className="py-3 px-4">Loading details</th>
+              <th className="py-3 px-4">Unloading details</th>
+              <th className="py-3 px-4">Daily Activities details</th>
               <th className="py-3 px-4 text-center">Actions</th>
             </tr>
           </thead>
