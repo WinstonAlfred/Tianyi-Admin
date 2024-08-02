@@ -1,17 +1,22 @@
 import React from 'react';
 import { getShipments } from '@/lib/get/getShipment';
-import { CreateButton, DeleteButton, EditButton } from '../buttons';
+import { DeleteButton, EditButton } from '../buttons';
 import { deleteShipment } from '@/lib/action/shipmentAction';
 
-const ShipmentTable = async () => {
-  const shipments = await getShipments();
+const ITEMS_PER_PAGE = 10;
+
+const ShipmentTable = async ({ query, currentPage }: { query: string; currentPage: number }) => {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+  console.log(`Fetching shipments with query: "${query}", offset: ${offset}, limit: ${ITEMS_PER_PAGE}`);
+  
+  const shipments = await getShipments(query, offset, ITEMS_PER_PAGE);
+  console.log(`Fetched ${shipments.length} shipments`);
 
   return (  
-    <div>
-      <div className="mb-4">
-        <CreateButton targetEntity='shipment'/>
-      </div>
-      <div className="overflow-x-auto">
+    <div className="overflow-x-auto">
+      {shipments.length === 0 ? (
+        <p className="text-center py-4">No shipments found matching the search criteria.</p>
+      ) : (
         <table className="w-full text-sm text-left text-gray-500 border-collapse">
           <thead className="text-xs text-gray-700 uppercase bg-gray-100">
             <tr>
@@ -28,7 +33,7 @@ const ShipmentTable = async () => {
           {shipments.map((shipment, index) => (
               <tr key={shipment.id} className="bg-white border-b hover:bg-gray-50">
                 <td className="py-3 px-4 font-medium text-gray-900">
-                  {index + 1}
+                  {offset + index + 1}
                 </td>
                 <td className="py-3 px-4">
                   {shipment.id}
@@ -67,7 +72,7 @@ const ShipmentTable = async () => {
             ))}
           </tbody>
         </table>
-      </div>
+      )}
     </div>
   );
 };

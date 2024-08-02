@@ -1,14 +1,27 @@
 import { prisma } from "../prisma";
 
-export async function getShipments() {
+export const getShipments = async (query: string, offset: number, limit: number) => {
     try {
-        const shipment = await prisma.shipment.findMany();
-        return shipment;
+      const shipments = await prisma.shipment.findMany({
+        where: {
+          OR: [
+            { id: { contains: query, mode: 'insensitive' } },
+            { Status: { contains: query, mode: 'insensitive' } },
+            { Ship_from: { contains: query, mode: 'insensitive' } },
+            { Ship_destination: { contains: query, mode: 'insensitive' } },
+            { Product: { hasSome: [query] } },
+          ],
+        },
+        skip: offset,
+        take: limit,
+        orderBy: { id: 'asc' },
+      });
+      return shipments;
     } catch (error) {
-        console.error('Error fetching shipments', error);
-        throw error;
+      console.error('Error fetching shipments:', error);
+      throw new Error('Failed to fetch shipments');
     }
-}
+  };
 
 export async function getShipmentsById (id: string) {
     try {

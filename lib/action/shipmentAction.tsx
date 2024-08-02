@@ -15,6 +15,8 @@ const ShipmentSchema = z.object({
   Description: z.array(z.string()).optional(),
 });
 
+const ITEMS_PER_PAGE = 10; // Adjust this value as needed
+
 type ShipmentInput = z.infer<typeof ShipmentSchema>;
 
 export const createShipment = async (prevState: any, formData: FormData) => {
@@ -124,3 +126,47 @@ export const updateShipment = async (id: string, prevState: any, formData: FormD
 };
 
 
+export const getShipmentPages = async (query: string) => {
+  try {
+    const shipments = await prisma.shipment.count({
+      where: {
+        OR: [
+          {
+            id: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+          {
+            Status: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+          {
+            Ship_from: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+          {
+            Ship_destination: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+          {
+            Product: {
+              hasSome: [query],
+            },
+          },
+        ],
+      },
+    });
+    const totalPages = Math.ceil(Number(shipments) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error("Failed to fetch shipment data:", error);
+    throw new Error("Failed to fetch shipment data");
+  }
+};
