@@ -83,9 +83,12 @@ const HomePage: React.FC = () => {
       {/* Mobile Header */}
       <div className="md:hidden bg-white shadow-md p-4 flex justify-between items-center">
         <h1 className="text-xl font-bold text-gray-800">{t.title}</h1>
-        <button onClick={toggleMobileMenu} className="text-gray-700">
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="flex items-center">
+          <LanguageSelector language={language} changeLanguage={changeLanguage} />
+          <button onClick={toggleMobileMenu} className="text-gray-700 ml-4">
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Left Panel / Mobile Menu */}
@@ -102,19 +105,10 @@ const HomePage: React.FC = () => {
 
       {/* Main Content Area */}
       <div className="flex-1 p-6 md:p-10">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl md:text-3xl font-semibold text-gray-800">{t.welcome}</h2>
-          <div className="flex items-center">
-            <Globe className="mr-2" size={20} />
-            <select
-              value={language}
-              onChange={(e) => changeLanguage(e.target.value as Language)}
-              className="bg-white border border-gray-300 rounded-md px-2 py-1"
-            >
-              <option value="en">English</option>
-              <option value="zh">中文</option>
-              <option value="id">Bahasa Indonesia</option>
-            </select>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-4 md:mb-0">{t.welcome}</h2>
+          <div className="hidden md:block">
+            <LanguageSelector language={language} changeLanguage={changeLanguage} />
           </div>
         </div>
         <p className="mt-4 text-gray-600">
@@ -124,5 +118,20 @@ const HomePage: React.FC = () => {
     </div>
   );
 };
+
+const LanguageSelector: React.FC<{ language: Language; changeLanguage: (lang: Language) => void }> = ({ language, changeLanguage }) => (
+  <div className="flex items-center">
+    <Globe className="mr-2" size={20} />
+    <select
+      value={language}
+      onChange={(e) => changeLanguage(e.target.value as Language)}
+      className="bg-white border border-gray-300 rounded-md px-2 py-1"
+    >
+      <option value="en">English</option>
+      <option value="zh">中文</option>
+      <option value="id">Bahasa Indonesia</option>
+    </select>
+  </div>
+);
 
 export default HomePage;
