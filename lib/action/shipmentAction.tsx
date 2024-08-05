@@ -15,7 +15,7 @@ const ShipmentSchema = z.object({
   Description: z.array(z.string()).optional(),
 });
 
-const ITEMS_PER_PAGE = 10; // Adjust this value as needed
+const ITEMS_PER_PAGE = 5; // Adjust this value as needed
 
 type ShipmentInput = z.infer<typeof ShipmentSchema>;
 

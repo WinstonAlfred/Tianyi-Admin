@@ -1,11 +1,10 @@
+import React, { Suspense } from 'react';
 import ShipmentTable from "@/components/table/shipment-table";
 import Search from "@/components/search";
 import Pagination from "@/components/pagination";
 import { CreateButton } from "@/components/buttons";
 import { getShipmentPages } from "@/lib/action/shipmentAction";
-import { Suspense } from "react";
 import { ShipmentSkeleton } from "@/components/skeleton/shipmentSkeleton";
-
 
 export const dynamic = 'force-dynamic';
 
@@ -29,7 +28,7 @@ const Shipments = async ({
       </div>
 
       <Suspense key={query + currentPage} fallback={<ShipmentSkeleton />}>
-      <ShipmentTable query={query} currentPage={currentPage} />
+        <ShipmentTable query={query} currentPage={currentPage} />
       </Suspense>
 
       <div className="flex justify-center mt-4">

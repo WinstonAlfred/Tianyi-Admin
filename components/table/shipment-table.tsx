@@ -3,9 +3,14 @@ import { getShipments } from '@/lib/get/getShipment';
 import { DeleteButton, EditButton } from '../buttons';
 import { deleteShipment } from '@/lib/action/shipmentAction';
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 5;
 
-const ShipmentTable = async ({ query, currentPage }: { query: string; currentPage: number }) => {
+interface ShipmentTableProps {
+  query: string;
+  currentPage: number;
+}
+
+const ShipmentTable: React.FC<ShipmentTableProps> = async ({ query, currentPage }) => {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   console.log(`Fetching shipments with query: "${query}", offset: ${offset}, limit: ${ITEMS_PER_PAGE}`);
   

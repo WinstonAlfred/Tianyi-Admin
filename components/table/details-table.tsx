@@ -14,7 +14,7 @@ interface DetailsTableProps {
   currentPage: number;
 }
 
-const ITEMS_PER_PAGE = 10; // Adjust this value as needed
+const ITEMS_PER_PAGE = 5; // Adjust this value as needed
 
 const DetailsTable: React.FC<DetailsTableProps> = async ({ query, currentPage }) => {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;

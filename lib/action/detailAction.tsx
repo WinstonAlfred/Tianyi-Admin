@@ -12,7 +12,7 @@ const DetailSchema = z.object({
     Daily_activities: z.array(z.string()).optional(),
 });
 
-const ITEMS_PER_PAGE = 10; // Adjust this value as needed
+const ITEMS_PER_PAGE = 5; // Adjust this value as needed
 
 export const createDetail = async (prevState: any, formData: FormData) => {
     // Extract arrays from FormData
