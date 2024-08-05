@@ -1,7 +1,9 @@
 import React from 'react';
 import { getShipments } from '@/lib/get/getShipment';
+import { getDetailsById } from '@/lib/get/getDetails';
 import { DeleteButton, EditButton } from '../buttons';
 import { deleteShipment } from '@/lib/action/shipmentAction';
+import Link from 'next/link';
 
 const ITEMS_PER_PAGE = 5;
 
@@ -71,6 +73,7 @@ const ShipmentTable: React.FC<ShipmentTableProps> = async ({ query, currentPage 
                   <div className="flex justify-center gap-2">
                     <EditButton id={shipment.id} entityType='shipment'/>
                     <DeleteButton id={shipment.id} onDelete={deleteShipment}/>
+                    <EditDetailsButton shipmentId={shipment.id} />
                   </div>
                 </td>
               </tr>
@@ -79,6 +82,25 @@ const ShipmentTable: React.FC<ShipmentTableProps> = async ({ query, currentPage 
         </table>
       )}
     </div>
+  );
+};
+
+interface EditDetailsButtonProps {
+  shipmentId: string;
+}
+
+const EditDetailsButton: React.FC<EditDetailsButtonProps> = async ({ shipmentId }) => {
+  const details = await getDetailsById(shipmentId);
+  const href = details 
+    ? `/details/edit/${details.id}` 
+    : `/details/create?shipmentId=${shipmentId}`;
+
+  return (
+    <Link href={href}>
+      <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">
+        {details ? 'Edit Details' : 'Create Details'}
+      </button>
+    </Link>
   );
 };
 
