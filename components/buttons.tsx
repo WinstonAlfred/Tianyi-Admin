@@ -40,7 +40,7 @@ export const EditButton: React.FC<EditButtonProps> = ({ id, entityType }) => {
     <Link
       href={`/${entityType}/edit/${id}`}
       onClick={handleClick}
-      className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 md:py-2 md:px-4 rounded inline-flex items-center text-sm ${
+      className={`bg-white hover:bg-grey text-black font-bold py-1 px-2 md:py-2 md:px-4 rounded inline-flex items-center text-sm ${
         isLoading ? 'opacity-50 cursor-not-allowed' : ''
       }`}
     >
@@ -75,7 +75,7 @@ export const DeleteButton: React.FC<DeleteButtonProps> = ({ id, onDelete }) => {
     <button
       onClick={handleDelete}
       disabled={isPending}
-      className={`bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 md:py-2 md:px-4 rounded inline-flex items-center text-sm ${
+      className={`bg-white hover:bg-grey text-black font-bold py-1 px-2 md:py-2 md:px-4 rounded inline-flex items-center text-sm ${
         isPending ? 'opacity-50 cursor-not-allowed' : ''
       }`}
     >

@@ -97,7 +97,7 @@ const EditDetailsButton: React.FC<EditDetailsButtonProps> = async ({ shipmentId 
 
   return (
     <Link href={href}>
-      <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">
+      <button className="bg-white hover:bg-white text-black font-bold py-2 px-4 rounded">
         {details ? 'Edit Details' : 'Create Details'}
       </button>
     </Link>
