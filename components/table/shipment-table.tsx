@@ -57,7 +57,7 @@ const ShipmentTable: React.FC<ShipmentTableProps> = async ({ query, currentPage 
                 <td className="py-3 px-4">
                   <ul className="list-none p-0 m-0">
                     {shipment.Product.map((product, idx) => (
-                      <li key={idx} className={`p-2 rounded-md ${idx % 2 === 0 ? 'bg-blue-50' : 'bg-green-50'} mb-2`}>
+                      <li key={idx} className={`p-2 rounded-md ${idx % 2 === 0 ? 'bg-white' : 'bg-white'} mb-2`}>
                         <div className="font-medium text-gray-800">{product}</div>
                         <div className="text-sm text-gray-600">
                           Capacity: {shipment.Capacity[idx]} tons
