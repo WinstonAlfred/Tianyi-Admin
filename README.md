@@ -15,36 +15,81 @@ Instead of using a traditional API, we leverage Prisma ORM to interact directly 
 
 ```
 .
-├── app/
-│   ├── details/
-│   │   ├── create/
-│   │   ├── edit/[id]/
+├── .env
+├── .eslintrc.json
+├── .gitignore
+├── app
+│   ├── details
+│   │   ├── create
+│   │   │   └── page.tsx
+│   │   ├── edit
+│   │   │   └── [id]
+│   │   │       └── page.tsx
 │   │   └── page.tsx
-│   ├── ship/
-│   │   ├── create/
-│   │   ├── edit/[id]/
+│   ├── globals.css
+│   ├── layout.tsx
+│   ├── page.tsx
+│   ├── ship
+│   │   ├── create
+│   │   │   └── page.tsx
+│   │   ├── edit
+│   │   │   └── [id]
+│   │   │       └── page.tsx
 │   │   └── page.tsx
-│   └── shipment/
-│       ├── create/
-│       ├── edit/[id]/
+│   └── shipment
+│       ├── create
+│       │   └── page.tsx
+│       ├── edit
+│       │   └── [id]
+│       │       └── page.tsx
 │       └── page.tsx
-├── components/
-│   ├── create_form/
-│   ├── edit_form/
-│   └── table/
-├── lib/
-│   ├── action/
+├── components
+│   ├── buttons.tsx
+│   ├── create_form
+│   │   ├── create-details.tsx
+│   │   ├── create-ship.tsx
+│   │   └── create-shipment.tsx
+│   ├── edit_form
+│   │   ├── edit-details.tsx
+│   │   ├── edit-ship.tsx
+│   │   └── edit-shipment.tsx
+│   ├── pagination.tsx
+│   ├── search.tsx
+│   ├── skeleton
+│   │   ├── detailSkeleton.tsx
+│   │   └── shipmentSkeleton.tsx
+│   └── table
+│       ├── ClientRow.tsx
+│       ├── details-table.tsx
+│       ├── ship-table.tsx
+│       └── shipment-table.tsx
+├── lib
+│   ├── action
 │   │   ├── detailAction.tsx
 │   │   ├── shipAction.tsx
 │   │   └── shipmentAction.tsx
-│   └── get/
-│       ├── getDetails.ts
-│       ├── getShip.ts
-│       └── getShipment.ts
-└── prisma/
-    ├── migrations/
-    └── schema.prisma
-```
+│   ├── get
+│   │   ├── getDetails.ts
+│   │   ├── getShip.ts
+│   │   └── getShipment.ts
+│   ├── prisma.ts
+│   └── utils.ts
+├── next-env.d.ts
+├── next.config.mjs
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+├── prisma
+│   ├── migrations
+│   │   ├── 20240731035717_init
+│   │   │   └── migration.sql
+│   │   └── migration_lock.toml
+│   └── schema.prisma
+├── public
+│   └── logo.png
+├── README.md
+├── tailwind.config.ts
+└── tsconfig.json
 
 ## CRUD Operations
 
