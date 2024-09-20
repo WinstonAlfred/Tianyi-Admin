@@ -7,22 +7,39 @@ import Link from 'next/link';
 
 const ITEMS_PER_PAGE = 5;
 
-interface ShipmentTableProps {
-  query: string;
-  currentPage: number;
+interface Shipment {
+  id: string;
+  Status: string;
+  Ship_from: string;
+  Ship_destination: string;
+  Product: string[];
+  Capacity: number[];
+  Description?: string[];
 }
 
-const ShipmentTable: React.FC<ShipmentTableProps> = async ({ query, currentPage }) => {
-  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-  console.log(`Fetching shipments with query: "${query}", offset: ${offset}, limit: ${ITEMS_PER_PAGE}`);
-  
-  const shipments = await getShipments(query, offset, ITEMS_PER_PAGE);
-  console.log(`Fetched ${shipments.length} shipments`);
+interface ShipmentTableProps {
+  query?: string;
+  currentPage?: number;
+  initialShipments?: Shipment[];
+}
+
+const ShipmentTable: React.FC<ShipmentTableProps> = async ({ query = "", currentPage = 1, initialShipments }) => {
+  let shipments: Shipment[];
+
+  if (initialShipments) {
+    shipments = initialShipments;
+  } else {
+    const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+    console.log(`Fetching shipments with query: "${query}", offset: ${offset}, limit: ${ITEMS_PER_PAGE}`);
+    shipments = await getShipments(query, offset, ITEMS_PER_PAGE);
+  }
+
+  console.log(`Displaying ${shipments.length} shipments`);
 
   return (  
     <div className="overflow-x-auto">
       {shipments.length === 0 ? (
-        <p className="text-center py-4">No shipments found matching the search criteria.</p>
+        <p className="text-center py-4">No shipments found.</p>
       ) : (
         <table className="w-full text-sm text-left text-gray-500 border-collapse">
           <thead className="text-xs text-gray-700 uppercase bg-gray-100">
@@ -40,7 +57,7 @@ const ShipmentTable: React.FC<ShipmentTableProps> = async ({ query, currentPage 
           {shipments.map((shipment, index) => (
               <tr key={shipment.id} className="bg-white border-b hover:bg-gray-50">
                 <td className="py-3 px-4 font-medium text-gray-900">
-                  {offset + index + 1}
+                  {index + 1}
                 </td>
                 <td className="py-3 px-4">
                   {shipment.id}

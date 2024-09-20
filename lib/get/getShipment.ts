@@ -21,16 +21,34 @@ export const getShipments = async (query: string, offset: number, limit: number)
       console.error('Error fetching shipments:', error);
       throw new Error('Failed to fetch shipments');
     }
-  };
+};
 
-export async function getShipmentsById (id: string) {
+export async function getShipmentsById(id: string) {
     try {
         const shipment = await prisma.shipment.findUnique({
-            where:{ id },
-            });
-            return shipment;
+            where: { id },
+        });
+        return shipment;
     } catch (error) {
-        console.error('Error fetching shipments with ID ${id}:', error);
+        console.error(`Error fetching shipment with ID ${id}:`, error);
         throw error;
+    }
+}
+
+export async function getShipmentsByShipName(shipName: string) {
+    try {
+        const shipments = await prisma.shipment.findMany({
+            where: {
+                id: {
+                    startsWith: shipName,
+                    mode: 'insensitive'
+                }
+            },
+            orderBy: { id: 'asc' },
+        });
+        return shipments;
+    } catch (error) {
+        console.error(`Error fetching shipments for ship ${shipName}:`, error);
+        throw new Error(`Failed to fetch shipments for ship ${shipName}`);
     }
 }
