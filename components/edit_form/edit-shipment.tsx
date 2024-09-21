@@ -97,8 +97,9 @@ const EditShipmentForm: React.FC<EditShipmentFormProps> = ({ shipment }) => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           >
             <option value="">Select a status...</option>
-            <option value="GO TO PROYEK">Go To Proyek</option>
-            <option value="RETURN FROM PROYEK">Return From Proyek</option>
+            <option value="LOADING">Loading</option>
+            <option value="ONGOING">Ongoing</option>
+            <option value="UNLOADING">Unloading</option>
           </select>
           <div id="Status-error" aria-live="polite" aria-atomic="true">
             <p className="mt-2 text-sm text-red-500">{state?.Error?.Status}</p>
