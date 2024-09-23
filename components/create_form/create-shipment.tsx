@@ -75,6 +75,7 @@ const ShipmentForm = () => {
             <option value="LOADING">Loading</option>
             <option value="ONGOING">Ongoing</option>
             <option value="UNLOADING">Unloading</option>
+            <option value="UNLOADING">Finished</option>
           </select>
           <div id="Status-error" aria-live="polite" aria-atomic="true">
             <p className="mt-2 text-sm text-red-500">{state?.Error?.Status}</p>
