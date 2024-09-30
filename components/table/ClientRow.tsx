@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import React, { useState } from 'react';
 import { EditButton, DeleteButton } from '../buttons';
@@ -35,14 +35,36 @@ const ClientRow: React.FC<ClientRowProps> = ({ detail, index }) => {
     }
   };
 
+  const parseActivityString = (str: string): { description: string, items: { datetime: string, work: string }[] } => {
+    const lines = str.split('\n');
+    const description = lines[0].replace('Description: ', '');
+    const items = [];
+    for (let i = 1; i < lines.length; i += 2) {
+      items.push({
+        datetime: lines[i].replace('Datetime: ', ''),
+        work: lines[i + 1].replace('Work: ', '')
+      });
+    }
+    return { description, items };
+  };
+
   const renderFormattedText = (items: string[], type: ActivityType): JSX.Element => {
     return (
       <div className={`space-y-4 ${isExpanded ? '' : 'max-h-20 overflow-hidden'}`}>
-        {items.map((text, index) => (
-          <pre key={index} className={`whitespace-pre font-mono text-xs ${getItemColor(type)} p-4 rounded overflow-x-auto`}>
-            {text}
-          </pre>
-        ))}
+        {items.map((text, index) => {
+          const { description, items } = parseActivityString(text);
+          return (
+            <div key={index} className={`${getItemColor(type)} p-4 rounded overflow-x-auto`}>
+              <h4 className="font-bold mb-2">{description}</h4>
+              {items.map((item, idx) => (
+                <div key={idx} className="flex flex-wrap mb-2">
+                  <span className="w-1/2 pr-2">Datetime: {item.datetime}</span>
+                  <span className="w-1/2">Work: {item.work}</span>
+                </div>
+              ))}
+            </div>
+          );
+        })}
       </div>
     );
   };
