@@ -37,18 +37,30 @@ const EditDetailForm: React.FC<EditDetailFormProps> = ({ detail }) => {
   function parseActivityGroup(activities?: string[]): ActivityGroup {
     if (!activities) return [];
     return activities.map(activity => {
-      const [description, ...workItems] = activity.split('\n');
-      return {
-        description: description.replace('Description: ', ''),
-        workItems: workItems.reduce((acc: WorkItem[], item, index, array) => {
-          if (index % 2 === 0) {
-            acc.push({
-              datetime: item.replace('Datetime: ', ''),
-              work: array[index + 1]?.replace('Work: ', '') || ''
-            });
+      const lines = activity.split('\n');
+      const descriptionLines = [];
+      let workItems = [];
+      let isDescription = true;
+
+      for (let line of lines) {
+        if (line.startsWith('Datetime:') || line.startsWith('Work:')) {
+          isDescription = false;
+        }
+
+        if (isDescription) {
+          descriptionLines.push(line.replace('Description: ', ''));
+        } else {
+          if (line.startsWith('Datetime:')) {
+            workItems.push({ datetime: line.replace('Datetime: ', ''), work: '' });
+          } else if (line.startsWith('Work:')) {
+            workItems[workItems.length - 1].work = line.replace('Work: ', '');
           }
-          return acc;
-        }, [])
+        }
+      }
+
+      return {
+        description: descriptionLines.join('\n'),
+        workItems: workItems
       };
     });
   }
@@ -155,7 +167,7 @@ const EditDetailForm: React.FC<EditDetailFormProps> = ({ detail }) => {
                   value={activity.description}
                   onChange={(e) => updateActivity(setter, activityIndex, 'description', e.target.value)}
                   className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                  rows={2}
+                  rows={4}
                 />
               </div>
               {activity.workItems.map((workItem, workItemIndex) => (
