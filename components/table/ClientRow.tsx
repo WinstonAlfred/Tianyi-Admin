@@ -56,12 +56,18 @@ const ClientRow: React.FC<ClientRowProps> = ({ detail, index }) => {
           return (
             <div key={index} className={`${getItemColor(type)} p-4 rounded overflow-x-auto`}>
               <h4 className="font-bold mb-2">{description}</h4>
-              {items.map((item, idx) => (
-                <div key={idx} className="flex flex-wrap mb-2">
-                  <span className="w-1/2 pr-2">Datetime: {item.datetime}</span>
-                  <span className="w-1/2">Work: {item.work}</span>
-                </div>
-              ))}
+              <div className="overflow-x-auto">
+                <table className="w-full table-auto">
+                  <tbody>
+                    {items.map((item, idx) => (
+                      <tr key={idx} className="border-b last:border-b-0">
+                        <td className="py-2 pr-4 whitespace-nowrap font-medium">{item.datetime}</td>
+                        <td className="py-2 whitespace-nowrap">{item.work}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           );
         })}
