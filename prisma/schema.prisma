@@ -29,8 +29,8 @@ model Shipment {
 }
 
 model Detail {
-  id               String   @id @db.VarChar(225)
-  Loading          String[]  @db.Text
-  Unloading        String[]  @db.Text
-  Daily_activities String[]  @db.Text
+  id               String      @id @default(uuid())
+  Loading          String[]    @db.Text
+  Unloading        String[]    @db.Text
+  Daily_activities String[]    @db.Text
 }

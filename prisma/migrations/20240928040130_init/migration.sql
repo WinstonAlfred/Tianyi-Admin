@@ -20,7 +20,7 @@ CREATE TABLE "Shipment" (
 
 -- CreateTable
 CREATE TABLE "Detail" (
-    "id" VARCHAR(225) NOT NULL,
+    "id" TEXT NOT NULL,
     "Loading" TEXT[],
     "Unloading" TEXT[],
     "Daily_activities" TEXT[],

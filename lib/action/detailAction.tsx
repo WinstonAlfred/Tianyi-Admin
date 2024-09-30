@@ -64,41 +64,41 @@ export const deleteDetail = async (id: string): Promise<void> => {
 
 
 export const updateDetail = async (
-    id: string,
-    prevState: any,
-    formData: FormData
+  id: string,
+  prevState: any,
+  formData: FormData
 ) => {
-    // Extract arrays from FormData
-    const loading = formData.getAll('Loading');
-    const unloading = formData.getAll('Unloading');
-    const dailyActivities = formData.getAll('Daily_activities');
+  // Extract arrays from FormData
+  const loading = formData.getAll('Loading');
+  const unloading = formData.getAll('Unloading');
+  const dailyActivities = formData.getAll('Daily_activities');
 
-    const data = {
-        id: formData.get('id'),
-        Loading: loading,
-        Unloading: unloading,
-        Daily_activities: dailyActivities,
-    };
+  const data = {
+      id: formData.get('id'),
+      Loading: loading,
+      Unloading: unloading,
+      Daily_activities: dailyActivities,
+  };
 
-    const validatedFields = DetailSchema.safeParse(data);
+  const validatedFields = DetailSchema.safeParse(data);
 
-    if (!validatedFields.success) {
-        return {
-            Error: validatedFields.error.flatten().fieldErrors,
-        };
-    }
+  if (!validatedFields.success) {
+      return {
+          Error: validatedFields.error.flatten().fieldErrors,
+      };
+  }
 
-    try {
-        await prisma.detail.update({
-            data: validatedFields.data,
-            where: { id },
-        });
-    } catch (error) {
-        return { message: "Failed to update detail" };
-    }
+  try {
+      await prisma.detail.update({
+          data: validatedFields.data,
+          where: { id },
+      });
+  } catch (error) {
+      return { message: "Failed to update detail" };
+  }
 
-    revalidatePath("/details");
-    redirect("/details");
+  revalidatePath("/details");
+  redirect("/details");
 };
 
 
