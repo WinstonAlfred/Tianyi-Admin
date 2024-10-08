@@ -7,6 +7,7 @@ interface Detail {
   Loading: string[];
   Unloading: string[];
   Daily_activities: string[];
+  Pickup: string[];
 }
 
 interface DetailsTableProps {
@@ -31,6 +32,7 @@ const DetailsTable: React.FC<DetailsTableProps> = async ({ query, currentPage })
               <th className="py-3 px-4">Loading</th>
               <th className="py-3 px-4">Unloading</th>
               <th className="py-3 px-4">Daily Activities</th>
+              <th className="py-3 px-4">Picking Up</th>
               <th className="py-3 px-4 text-center">Actions</th>
             </tr>
           </thead>

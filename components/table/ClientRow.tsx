@@ -10,9 +10,10 @@ interface Detail {
   Loading: string[];
   Unloading: string[];
   Daily_activities: string[];
+  Pickup: string[];
 }
 
-type ActivityType = 'Loading' | 'Unloading' | 'Daily Activities';
+type ActivityType = 'Loading' | 'Unloading' | 'Daily Activities' | 'Pickup';
 
 interface ClientRowProps {
   detail: Detail;
@@ -29,6 +30,8 @@ const ClientRow: React.FC<ClientRowProps> = ({ detail, index }) => {
       case 'Unloading':
         return 'bg-white text-black';
       case 'Daily Activities':
+        return 'bg-white text-black';
+      case 'Pickup':
         return 'bg-white text-black';
       default:
         return 'bg-white text-black';
@@ -107,6 +110,9 @@ const ClientRow: React.FC<ClientRowProps> = ({ detail, index }) => {
         </td>
         <td className="py-4 px-4 align-top">
           {renderFormattedText(detail.Daily_activities, 'Daily Activities')}
+        </td>
+        <td className="py-4 px-4 align-top">
+          {renderFormattedText(detail.Pickup, 'Pickup')}
         </td>
         <td className="py-4 px-4 align-top">
           <div className="flex justify-center gap-2">

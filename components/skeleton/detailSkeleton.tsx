@@ -12,9 +12,10 @@ export const DetailSkeleton = () => {
             <tr>
               <th className="py-3 px-4">#</th>
               <th className="py-3 px-4">Detail ID</th>
-              <th className="py-3 px-4">Loading details</th>
-              <th className="py-3 px-4">Unloading details</th>
-              <th className="py-3 px-4">Daily Activities details</th>
+              <th className="py-3 px-4">Loading</th>
+              <th className="py-3 px-4">Unloading</th>
+              <th className="py-3 px-4">Daily Activities</th>
+              <th className="py-3 px-4">Pickup</th>
               <th className="py-3 px-4 text-center">Actions</th>
             </tr>
           </thead>
@@ -26,6 +27,12 @@ export const DetailSkeleton = () => {
                 </td>
                 <td className="py-3 px-4">
                   <div className="h-4 w-24 rounded bg-gray-200"></div>
+                </td>
+                <td className="py-3 px-4">
+                  <div className="space-y-2">
+                    <div className="h-4 w-full rounded bg-gray-200"></div>
+                    <div className="h-4 w-3/4 rounded bg-gray-200"></div>
+                  </div>
                 </td>
                 <td className="py-3 px-4">
                   <div className="space-y-2">

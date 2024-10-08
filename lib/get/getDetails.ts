@@ -10,6 +10,7 @@ export const getDetails = async (query?: string, offset?: number, limit?: number
             { Loading: { hasSome: [query] } },
             { Unloading: { hasSome: [query] } },
             { Daily_activities: { hasSome: [query] } },
+            { Pickup: { hasSome: [query] } },
           ],
         }
       : {};

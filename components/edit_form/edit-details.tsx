@@ -24,6 +24,7 @@ interface EditDetailFormProps {
     Loading?: string[];
     Unloading?: string[];
     Daily_activities?: string[];
+    Pickup?: string[];
   };
 }
 
@@ -32,6 +33,7 @@ const EditDetailForm: React.FC<EditDetailFormProps> = ({ detail }) => {
   const [loading, setLoading] = useState<ActivityGroup>(parseActivityGroup(detail.Loading));
   const [unloading, setUnloading] = useState<ActivityGroup>(parseActivityGroup(detail.Unloading));
   const [dailyActivities, setDailyActivities] = useState<ActivityGroup>(parseActivityGroup(detail.Daily_activities));
+  const [pickup, setPickup] = useState<ActivityGroup>(parseActivityGroup(detail.Pickup));
   const [expandedSections, setExpandedSections] = useState<{[key: string]: boolean}>({});
 
   function parseActivityGroup(activities?: string[]): ActivityGroup {
@@ -139,6 +141,7 @@ const EditDetailForm: React.FC<EditDetailFormProps> = ({ detail }) => {
     serializeActivities(loading).forEach(item => formData.append('Loading', item));
     serializeActivities(unloading).forEach(item => formData.append('Unloading', item));
     serializeActivities(dailyActivities).forEach(item => formData.append('Daily_activities', item));
+    serializeActivities(pickup).forEach(item => formData.append('Pickup', item));
 
     formAction(formData);
   };
@@ -245,6 +248,7 @@ const EditDetailForm: React.FC<EditDetailFormProps> = ({ detail }) => {
         {renderActivityFields("Loading", loading, setLoading)}
         {renderActivityFields("Unloading", unloading, setUnloading)}
         {renderActivityFields("Daily Activities", dailyActivities, setDailyActivities)}
+        {renderActivityFields("Pickup", pickup, setPickup)}
 
         <SubmitButton label="Update Detail" />
       </form>

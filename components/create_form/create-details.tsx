@@ -23,6 +23,7 @@ const DetailForm: React.FC = () => {
   const [loading, setLoading] = useState<ActivityGroup>([]);
   const [unloading, setUnloading] = useState<ActivityGroup>([]);
   const [dailyActivities, setDailyActivities] = useState<ActivityGroup>([]);
+  const [pickup, setPickup] = useState<ActivityGroup>([]);
   const [expandedSections, setExpandedSections] = useState<{[key: string]: boolean}>({});
 
   const addActivity = (setter: React.Dispatch<React.SetStateAction<ActivityGroup>>) => {
@@ -99,6 +100,7 @@ const DetailForm: React.FC = () => {
     serializeActivities(loading).forEach(item => formData.append('Loading', item));
     serializeActivities(unloading).forEach(item => formData.append('Unloading', item));
     serializeActivities(dailyActivities).forEach(item => formData.append('Daily_activities', item));
+    serializeActivities(pickup).forEach(item => formData.append('Pickup', item));
 
     formAction(formData);
   };
@@ -204,6 +206,7 @@ const DetailForm: React.FC = () => {
         {renderActivityFields("Loading", loading, setLoading)}
         {renderActivityFields("Unloading", unloading, setUnloading)}
         {renderActivityFields("Daily Activities", dailyActivities, setDailyActivities)}
+        {renderActivityFields("Pickup", pickup, setPickup)}
 
         <SubmitButton label="Save Detail" />
       </form>

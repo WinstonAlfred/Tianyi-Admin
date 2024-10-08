@@ -24,6 +24,7 @@ CREATE TABLE "Detail" (
     "Loading" TEXT[],
     "Unloading" TEXT[],
     "Daily_activities" TEXT[],
+    "Pickup" TEXT[],
 
     CONSTRAINT "Detail_pkey" PRIMARY KEY ("id")
 );

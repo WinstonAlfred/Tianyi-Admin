@@ -10,6 +10,7 @@ const DetailSchema = z.object({
     Loading: z.array(z.string()).optional(),
     Unloading: z.array(z.string()).optional(),
     Daily_activities: z.array(z.string()).optional(),
+    Pickup: z.array(z.string()).optional(),
 });
 
 const ITEMS_PER_PAGE = 5; // Adjust this value as needed
@@ -19,12 +20,14 @@ export const createDetail = async (prevState: any, formData: FormData) => {
     const loading = formData.getAll('Loading');
     const unloading = formData.getAll('Unloading');
     const dailyActivities = formData.getAll('Daily_activities');
+    const pickup = formData.getAll('Pickup');
 
     const data = {
         id: formData.get('id'),
         Loading: loading,
         Unloading: unloading,
         Daily_activities: dailyActivities,
+        Pickup: pickup,
     };
 
     const validatedFields = DetailSchema.safeParse(data);
@@ -72,12 +75,14 @@ export const updateDetail = async (
   const loading = formData.getAll('Loading');
   const unloading = formData.getAll('Unloading');
   const dailyActivities = formData.getAll('Daily_activities');
+  const pickup = formData.getAll('Pickup');
 
   const data = {
       id: formData.get('id'),
       Loading: loading,
       Unloading: unloading,
       Daily_activities: dailyActivities,
+      Pickup: pickup,
   };
 
   const validatedFields = DetailSchema.safeParse(data);
@@ -126,6 +131,11 @@ export const getDetailPages = async (query: string) => {
           },
           {
             Daily_activities: {
+              hasSome: [query],
+            },
+          },
+          {
+            Pickup: {
               hasSome: [query],
             },
           },
