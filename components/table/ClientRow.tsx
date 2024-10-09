@@ -7,13 +7,13 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 
 interface Detail {
   id: string;
+  Queue: string[];
   Loading: string[];
   Unloading: string[];
-  Daily_activities: string[];
-  Pickup: string[];
+  Sailing_report: string[];
 }
 
-type ActivityType = 'Loading' | 'Unloading' | 'Daily Activities' | 'Pickup';
+type ActivityType = 'Loading' | 'Unloading' | 'Sailing Report' | 'Queue';
 
 interface ClientRowProps {
   detail: Detail;
@@ -25,13 +25,13 @@ const ClientRow: React.FC<ClientRowProps> = ({ detail, index }) => {
 
   const getItemColor = (type: ActivityType): string => {
     switch(type) {
+      case 'Queue':
+        return 'bg-white text-black';
       case 'Loading':
         return 'bg-white text-black';
       case 'Unloading':
         return 'bg-white text-black';
-      case 'Daily Activities':
-        return 'bg-white text-black';
-      case 'Pickup':
+      case 'Sailing Report':
         return 'bg-white text-black';
       default:
         return 'bg-white text-black';
@@ -103,16 +103,16 @@ const ClientRow: React.FC<ClientRowProps> = ({ detail, index }) => {
           {detail.id}
         </td>
         <td className="py-4 px-4 align-top">
+          {renderFormattedText(detail.Queue, 'Queue')}
+        </td>
+        <td className="py-4 px-4 align-top">
           {renderFormattedText(detail.Loading, 'Loading')}
         </td>
         <td className="py-4 px-4 align-top">
           {renderFormattedText(detail.Unloading, 'Unloading')}
         </td>
         <td className="py-4 px-4 align-top">
-          {renderFormattedText(detail.Daily_activities, 'Daily Activities')}
-        </td>
-        <td className="py-4 px-4 align-top">
-          {renderFormattedText(detail.Pickup, 'Pickup')}
+          {renderFormattedText(detail.Sailing_report, 'Sailing Report')}
         </td>
         <td className="py-4 px-4 align-top">
           <div className="flex justify-center gap-2">

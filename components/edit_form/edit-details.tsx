@@ -21,19 +21,19 @@ type ActivityGroup = ActivityItem[];
 interface EditDetailFormProps {
   detail: {
     id: string;
+    Queue?: string[];
     Loading?: string[];
     Unloading?: string[];
-    Daily_activities?: string[];
-    Pickup?: string[];
+    Sailing_report?: string[];
   };
 }
 
 const EditDetailForm: React.FC<EditDetailFormProps> = ({ detail }) => {
   const [state, formAction] = useFormState(updateDetail.bind(null, detail.id), null);
+  const [queue, setQueue] = useState<ActivityGroup>(parseActivityGroup(detail.Queue));
   const [loading, setLoading] = useState<ActivityGroup>(parseActivityGroup(detail.Loading));
   const [unloading, setUnloading] = useState<ActivityGroup>(parseActivityGroup(detail.Unloading));
-  const [dailyActivities, setDailyActivities] = useState<ActivityGroup>(parseActivityGroup(detail.Daily_activities));
-  const [pickup, setPickup] = useState<ActivityGroup>(parseActivityGroup(detail.Pickup));
+  const [sailingReport, setSailingReport] = useState<ActivityGroup>(parseActivityGroup(detail.Sailing_report));
   const [expandedSections, setExpandedSections] = useState<{[key: string]: boolean}>({});
 
   function parseActivityGroup(activities?: string[]): ActivityGroup {
@@ -138,10 +138,10 @@ const EditDetailForm: React.FC<EditDetailFormProps> = ({ detail }) => {
       );
     };
 
+    serializeActivities(queue).forEach(item => formData.append('Queue', item));
     serializeActivities(loading).forEach(item => formData.append('Loading', item));
     serializeActivities(unloading).forEach(item => formData.append('Unloading', item));
-    serializeActivities(dailyActivities).forEach(item => formData.append('Daily_activities', item));
-    serializeActivities(pickup).forEach(item => formData.append('Pickup', item));
+    serializeActivities(sailingReport).forEach(item => formData.append('Sailing_report', item));
 
     formAction(formData);
   };
@@ -245,10 +245,10 @@ const EditDetailForm: React.FC<EditDetailFormProps> = ({ detail }) => {
           )}
         </div>
 
+        {renderActivityFields("Queue", queue, setQueue)}
         {renderActivityFields("Loading", loading, setLoading)}
         {renderActivityFields("Unloading", unloading, setUnloading)}
-        {renderActivityFields("Daily Activities", dailyActivities, setDailyActivities)}
-        {renderActivityFields("Pickup", pickup, setPickup)}
+        {renderActivityFields("Sailing Report", sailingReport, setSailingReport)}
 
         <SubmitButton label="Update Detail" />
       </form>

@@ -20,10 +20,10 @@ type ActivityGroup = ActivityItem[];
 
 const DetailForm: React.FC = () => {
   const [state, formAction] = useFormState(createDetail, null);
+  const [queue, setQueue] = useState<ActivityGroup>([]);
   const [loading, setLoading] = useState<ActivityGroup>([]);
   const [unloading, setUnloading] = useState<ActivityGroup>([]);
-  const [dailyActivities, setDailyActivities] = useState<ActivityGroup>([]);
-  const [pickup, setPickup] = useState<ActivityGroup>([]);
+  const [sailingReport, setSailingReport] = useState<ActivityGroup>([]);
   const [expandedSections, setExpandedSections] = useState<{[key: string]: boolean}>({});
 
   const addActivity = (setter: React.Dispatch<React.SetStateAction<ActivityGroup>>) => {
@@ -97,10 +97,10 @@ const DetailForm: React.FC = () => {
       );
     };
 
+    serializeActivities(queue).forEach(item => formData.append('Queue', item));
     serializeActivities(loading).forEach(item => formData.append('Loading', item));
     serializeActivities(unloading).forEach(item => formData.append('Unloading', item));
-    serializeActivities(dailyActivities).forEach(item => formData.append('Daily_activities', item));
-    serializeActivities(pickup).forEach(item => formData.append('Pickup', item));
+    serializeActivities(sailingReport).forEach(item => formData.append('Sailing_report', item));
 
     formAction(formData);
   };
@@ -203,10 +203,10 @@ const DetailForm: React.FC = () => {
           )}
         </div>
 
+        {renderActivityFields("Queue", queue, setQueue)}
         {renderActivityFields("Loading", loading, setLoading)}
         {renderActivityFields("Unloading", unloading, setUnloading)}
-        {renderActivityFields("Daily Activities", dailyActivities, setDailyActivities)}
-        {renderActivityFields("Pickup", pickup, setPickup)}
+        {renderActivityFields("Sailing Report", sailingReport, setSailingReport)}
 
         <SubmitButton label="Save Detail" />
       </form>

@@ -21,10 +21,10 @@ CREATE TABLE "Shipment" (
 -- CreateTable
 CREATE TABLE "Detail" (
     "id" TEXT NOT NULL,
+    "Queue" TEXT[],
+    "Sailing_report" TEXT[],
     "Loading" TEXT[],
     "Unloading" TEXT[],
-    "Daily_activities" TEXT[],
-    "Pickup" TEXT[],
 
     CONSTRAINT "Detail_pkey" PRIMARY KEY ("id")
 );

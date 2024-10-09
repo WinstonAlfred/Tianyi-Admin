@@ -9,8 +9,8 @@ const DetailSchema = z.object({
     id: z.string(),
     Loading: z.array(z.string()).optional(),
     Unloading: z.array(z.string()).optional(),
-    Daily_activities: z.array(z.string()).optional(),
-    Pickup: z.array(z.string()).optional(),
+    Sailing_report: z.array(z.string()).optional(),
+    Queue: z.array(z.string()).optional(),
 });
 
 const ITEMS_PER_PAGE = 5; // Adjust this value as needed
@@ -19,15 +19,15 @@ export const createDetail = async (prevState: any, formData: FormData) => {
     // Extract arrays from FormData
     const loading = formData.getAll('Loading');
     const unloading = formData.getAll('Unloading');
-    const dailyActivities = formData.getAll('Daily_activities');
-    const pickup = formData.getAll('Pickup');
+    const sailingReport = formData.getAll('Sailing_report');
+    const queue = formData.getAll('Queue');
 
     const data = {
         id: formData.get('id'),
         Loading: loading,
         Unloading: unloading,
-        Daily_activities: dailyActivities,
-        Pickup: pickup,
+        Sailing_report: sailingReport,
+        Queue: queue,
     };
 
     const validatedFields = DetailSchema.safeParse(data);
@@ -74,15 +74,15 @@ export const updateDetail = async (
   // Extract arrays from FormData
   const loading = formData.getAll('Loading');
   const unloading = formData.getAll('Unloading');
-  const dailyActivities = formData.getAll('Daily_activities');
-  const pickup = formData.getAll('Pickup');
+  const sailingReport = formData.getAll('Sailing_report');
+  const queue = formData.getAll('Queue');
 
   const data = {
       id: formData.get('id'),
       Loading: loading,
       Unloading: unloading,
-      Daily_activities: dailyActivities,
-      Pickup: pickup,
+      Sailing_report: sailingReport,
+      Queue: queue,
   };
 
   const validatedFields = DetailSchema.safeParse(data);
@@ -130,12 +130,12 @@ export const getDetailPages = async (query: string) => {
             },
           },
           {
-            Daily_activities: {
+            Sailing_report: {
               hasSome: [query],
             },
           },
           {
-            Pickup: {
+            Queue: {
               hasSome: [query],
             },
           },

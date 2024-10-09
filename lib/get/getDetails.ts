@@ -9,8 +9,8 @@ export const getDetails = async (query?: string, offset?: number, limit?: number
             { id: { contains: query, mode: 'insensitive' } },
             { Loading: { hasSome: [query] } },
             { Unloading: { hasSome: [query] } },
-            { Daily_activities: { hasSome: [query] } },
-            { Pickup: { hasSome: [query] } },
+            { Sailing_report: { hasSome: [query] } },
+            { Queue: { hasSome: [query] } },
           ],
         }
       : {};

@@ -4,10 +4,10 @@ import ClientRow from './ClientRow';
 
 interface Detail {
   id: string;
+  Queue: string[];
   Loading: string[];
   Unloading: string[];
-  Daily_activities: string[];
-  Pickup: string[];
+  Sailing_report: string[];
 }
 
 interface DetailsTableProps {
@@ -29,10 +29,10 @@ const DetailsTable: React.FC<DetailsTableProps> = async ({ query, currentPage })
             <tr>
               <th className="py-3 px-4">#</th>
               <th className="py-3 px-4">Detail ID</th>
+              <th className="py-3 px-4">Queue</th>
               <th className="py-3 px-4">Loading</th>
               <th className="py-3 px-4">Unloading</th>
-              <th className="py-3 px-4">Daily Activities</th>
-              <th className="py-3 px-4">Picking Up</th>
+              <th className="py-3 px-4">Sailing Report</th>
               <th className="py-3 px-4 text-center">Actions</th>
             </tr>
           </thead>
