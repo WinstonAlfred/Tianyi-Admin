@@ -90,6 +90,7 @@ Instead of using a traditional API, we leverage Prisma ORM to interact directly 
 ├── README.md
 ├── tailwind.config.ts
 └── tsconfig.json
+```
 
 ## CRUD Operations
 
