@@ -4,7 +4,7 @@ import { updateShipment } from "@/lib/action/shipmentAction";
 import { useFormState } from "react-dom";
 import { SubmitButton } from "@/components/buttons";
 import { useState, useEffect } from 'react';
-import { PlusCircle, XCircle } from 'lucide-react';
+import { PlusCircle, XCircle, Upload, Loader2 } from 'lucide-react';
 
 interface EditShipmentFormProps {
   shipment: {
@@ -15,14 +15,26 @@ interface EditShipmentFormProps {
     Product?: string[];
     Capacity?: number[];
     Description?: string[];
+    document_name?: string;
+    document_type?: string;
+    document_url?: string;
+    uploaded_at?: string;
   };
 }
 
 const EditShipmentForm: React.FC<EditShipmentFormProps> = ({ shipment }) => {
   const [state, formAction] = useFormState(updateShipment.bind(null, shipment.id), null);
   const [products, setProducts] = useState<{ Product: string; Capacity: string; Description: string }[]>([]);
+  const [uploading, setUploading] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState<{
+    document_name: string;
+    document_type: string;
+    document_url: string;
+    uploaded_at: string;
+  } | null>(null);
 
   useEffect(() => {
+    // Initialize products
     if (shipment.Product && shipment.Capacity && shipment.Description) {
       const initialProducts = shipment.Product.map((product, index) => ({
         Product: product,
@@ -30,6 +42,16 @@ const EditShipmentForm: React.FC<EditShipmentFormProps> = ({ shipment }) => {
         Description: shipment.Description?.[index] || ''
       }));
       setProducts(initialProducts);
+    }
+
+    // Initialize uploaded file if exists
+    if (shipment.document_name && shipment.document_type && shipment.document_url && shipment.uploaded_at) {
+      setUploadedFile({
+        document_name: shipment.document_name,
+        document_type: shipment.document_type,
+        document_url: shipment.document_url,
+        uploaded_at: shipment.uploaded_at,
+      });
     }
   }, [shipment]);
 
@@ -48,6 +70,34 @@ const EditShipmentForm: React.FC<EditShipmentFormProps> = ({ shipment }) => {
     setProducts(newProducts);
   };
 
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Upload failed');
+      }
+
+      const data = await response.json();
+      setUploadedFile(data.data);
+    } catch (error) {
+      console.error('Upload error:', error);
+      alert('Failed to upload file');
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -56,6 +106,15 @@ const EditShipmentForm: React.FC<EditShipmentFormProps> = ({ shipment }) => {
       formData.append(`Capacity`, product.Capacity);
       formData.append(`Description`, product.Description);
     });
+
+    // Add uploaded file data to form submission
+    if (uploadedFile) {
+      formData.append('document_name', uploadedFile.document_name);
+      formData.append('document_type', uploadedFile.document_type);
+      formData.append('document_url', uploadedFile.document_url);
+      formData.append('uploaded_at', uploadedFile.uploaded_at);
+    }
+
     formAction(formData);
   };
 
@@ -219,6 +278,46 @@ const EditShipmentForm: React.FC<EditShipmentFormProps> = ({ shipment }) => {
             )}
           </div>
         ))}
+
+        {/* Document Upload Section */}
+        <div className="mb-5">
+          <label
+            htmlFor="document"
+            className="block text-sm font-medium text-gray-900 mb-2"
+          >
+            Upload Document
+          </label>
+          <div className="flex items-center space-x-2">
+            <label className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-sm cursor-pointer hover:bg-gray-50">
+              <input
+                type="file"
+                id="document"
+                onChange={handleFileUpload}
+                className="hidden"
+                disabled={uploading}
+              />
+              {uploading ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <Upload className="w-5 h-5" />
+              )}
+              <span className="ml-2">{uploading ? 'Uploading...' : 'Choose File'}</span>
+            </label>
+            {(uploadedFile || shipment.document_url) && (
+              <div className="flex-1 text-sm text-gray-600">
+                <p>Uploaded: {uploadedFile?.document_name || shipment.document_name}</p>
+                <a 
+                  href={uploadedFile?.document_url || shipment.document_url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:text-blue-700"
+                >
+                  View Document
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
 
         <SubmitButton label="Update Shipment" />
       </form>

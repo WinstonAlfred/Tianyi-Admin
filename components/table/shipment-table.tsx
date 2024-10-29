@@ -4,6 +4,7 @@ import { getDetailsById } from '@/lib/get/getDetails';
 import { DeleteButton, EditButton } from '../buttons';
 import { deleteShipment } from '@/lib/action/shipmentAction';
 import Link from 'next/link';
+import { FileText } from 'lucide-react';
 
 const ITEMS_PER_PAGE = 5;
 
@@ -14,7 +15,11 @@ interface Shipment {
   Ship_destination: string;
   Product: string[];
   Capacity: number[];
-  Description?: string[];
+  Description: string[];
+  document_name: string | null;
+  document_type: string | null;
+  document_url: string | null;
+  uploaded_at: Date | null;
 }
 
 interface ShipmentTableProps {
@@ -50,11 +55,12 @@ const ShipmentTable: React.FC<ShipmentTableProps> = async ({ query = "", current
               <th className="py-3 px-4">Shipment from</th>
               <th className="py-3 px-4">Shipment destination</th>
               <th className="py-3 px-4">Products</th>
+              <th className="py-3 px-4">Documents</th>
               <th className="py-3 px-4 text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
-          {shipments.map((shipment, index) => (
+            {shipments.map((shipment, index) => (
               <tr key={shipment.id} className="bg-white border-b hover:bg-gray-50">
                 <td className="py-3 px-4 font-medium text-gray-900">
                   {index + 1}
@@ -74,7 +80,7 @@ const ShipmentTable: React.FC<ShipmentTableProps> = async ({ query = "", current
                 <td className="py-3 px-4">
                   <ul className="list-none p-0 m-0">
                     {shipment.Product.map((product, idx) => (
-                      <li key={idx} className={`p-2 rounded-md ${idx % 2 === 0 ? 'bg-white' : 'bg-white'} mb-2`}>
+                      <li key={idx} className="p-2 rounded-md bg-white mb-2">
                         <div className="font-medium text-gray-800">{product}</div>
                         <div className="text-sm text-gray-600">
                           Capacity: {shipment.Capacity[idx]} tons
@@ -85,6 +91,26 @@ const ShipmentTable: React.FC<ShipmentTableProps> = async ({ query = "", current
                       </li>
                     ))}
                   </ul>
+                </td>
+                <td className="py-3 px-4">
+                  {shipment.document_url ? (
+                    <div className="flex items-center space-x-2">
+                      <FileText className="w-4 h-4 text-gray-500" />
+                      <a 
+                        href={shipment.document_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 hover:text-blue-700 hover:underline"
+                      >
+                        {shipment.document_name}
+                      </a>
+                      <span className="text-xs text-gray-500">
+                        ({shipment.uploaded_at ? new Date(shipment.uploaded_at).toLocaleDateString() : 'Date not available'})
+                      </span>
+                    </div>
+                  ) : (
+                    <span className="text-gray-400 text-sm">No documents</span>
+                  )}
                 </td>
                 <td className="py-3 px-4">
                   <div className="flex justify-center gap-2">
