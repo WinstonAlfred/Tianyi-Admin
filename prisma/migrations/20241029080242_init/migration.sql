@@ -14,6 +14,10 @@ CREATE TABLE "Shipment" (
     "Product" VARCHAR(225)[],
     "Capacity" INTEGER[],
     "Description" VARCHAR(225)[],
+    "document_name" VARCHAR(225),
+    "document_type" VARCHAR(100),
+    "document_url" TEXT,
+    "uploaded_at" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Shipment_pkey" PRIMARY KEY ("id")
 );

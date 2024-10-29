@@ -1,37 +1,35 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model Ship {
-  id               String     @id @db.VarChar(225)
+  id String @id @db.VarChar(225)
 }
 
 model Shipment {
-  id               String   @id @db.VarChar(225)
-  Status           String   @db.VarChar(225)
-  Ship_from        String   @db.VarChar(225)
-  Ship_destination String   @db.VarChar(225)
-  Product          String[] @db.VarChar(225)
+  id               String    @id @db.VarChar(225)
+  Status           String    @db.VarChar(225)
+  Ship_from        String    @db.VarChar(225)
+  Ship_destination String    @db.VarChar(225)
+  Product          String[]  @db.VarChar(225)
   Capacity         Int[]
-  Description      String[] @db.VarChar(225)
+  Description      String[]  @db.VarChar(225)
+  document_name    String?   @db.VarChar(225)
+  document_type    String?   @db.VarChar(100)
+  document_url     String?
+  uploaded_at      DateTime? @default(now())
 }
 
 model Detail {
-  id               String      @id @default(uuid())
-  Queue            String[]    @db.Text
-  Sailing_report   String[]    @db.Text
-  Loading          String[]    @db.Text
-  Unloading        String[]    @db.Text
+  id             String   @id @default(uuid())
+  Queue          String[]
+  Sailing_report String[]
+  Loading        String[]
+  Unloading      String[]
 }
