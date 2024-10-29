@@ -56,15 +56,14 @@ export async function POST(request: Request) {
   }
 }
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 export async function GET() {
   return NextResponse.json(
     { error: 'Method not allowed' },
     { status: 405 }
   );
+}
+
+// Add this OPTIONS handler to disable the body parser
+export async function OPTIONS() {
+  return NextResponse.json({});
 }
