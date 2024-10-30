@@ -41,7 +41,7 @@ const ShipmentForm = () => {
     formData.append('file', file);
   
     try {
-      const response = await fetch('/api/upload', {
+      const response = await fetch('/api/shipment/document', {
         method: 'POST',
         body: formData,
       });
