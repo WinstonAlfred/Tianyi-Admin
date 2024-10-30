@@ -19,6 +19,10 @@ Other than using Cloudinary API to store some files such as images/pdf, here I d
 ├── .eslintrc.json
 ├── .gitignore
 ├── app
+|   ├── api
+|   |   ├── shipment
+|   |   |   ├── document
+|   |   |        └──route.ts
 │   ├── details
 │   │   ├── create
 │   │   │   └── page.tsx
