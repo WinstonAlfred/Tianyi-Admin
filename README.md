@@ -9,7 +9,7 @@ Our application manages three main entities:
 - Ships
 - Shipments
 
-Instead of using a traditional API, we leverage Prisma ORM to interact directly with the database from our Next.js application.
+Other than using Cloudinary API to store some files such as images/pdf, here I decided leverage Prisma ORM to interact directly with the database from our Next.js application.
 
 ## Project Structure
 
