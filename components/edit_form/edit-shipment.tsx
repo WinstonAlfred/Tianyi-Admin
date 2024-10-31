@@ -119,13 +119,10 @@ const EditShipmentForm: React.FC<EditShipmentFormProps> = ({ shipment }) => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className="max-w-4xl mx-auto p-4">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div className="mb-5">
-          <label
-            htmlFor="id"
-            className="block text-sm font-medium text-gray-900"
-          >
+          <label htmlFor="id" className="block text-sm font-medium text-gray-900">
             Shipment ID
           </label>
           <input
@@ -133,29 +130,33 @@ const EditShipmentForm: React.FC<EditShipmentFormProps> = ({ shipment }) => {
             name="id"
             id="id"
             defaultValue={shipment.id}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             placeholder="Shipment ID..."
             readOnly
           />
-          <div id="id-error" aria-live="polite" aria-atomic="true">
-            <p className="mt-2 text-sm text-red-500">{state?.Error?.id}</p>
-          </div>
+          {state?.Error?.id && (
+            <div className="mt-2 text-sm text-red-500">
+              {Array.isArray(state.Error.id) 
+                ? state.Error.id.map((error, index) => (
+                    <p key={index}>{error}</p>
+                  ))
+                : <p>{state.Error.id}</p>
+              }
+            </div>
+          )}
         </div>
 
         <div className="mb-5">
-          <label
-            htmlFor="Status"
-            className="block text-sm font-medium text-gray-900"
-          >
+          <label htmlFor="Status" className="block text-sm font-medium text-gray-900">
             Shipment Status
           </label>
           <select
             name="Status"
             id="Status"
             defaultValue={shipment.Status}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           >
-            <option value="">...</option>
+            <option value="">Select Status...</option>
             <option value="QUEUEING">Queueing</option>
             <option value="PICKUP">Out for Pickup</option>
             <option value="LOADING">Loading</option>
@@ -163,16 +164,20 @@ const EditShipmentForm: React.FC<EditShipmentFormProps> = ({ shipment }) => {
             <option value="UNLOADING">Unloading</option>
             <option value="FINISHED">Finished</option>
           </select>
-          <div id="Status-error" aria-live="polite" aria-atomic="true">
-            <p className="mt-2 text-sm text-red-500">{state?.Error?.Status}</p>
-          </div>
+          {state?.Error?.Status && (
+            <div className="mt-2 text-sm text-red-500">
+              {Array.isArray(state.Error.Status) 
+                ? state.Error.Status.map((error, index) => (
+                    <p key={index}>{error}</p>
+                  ))
+                : <p>{state.Error.Status}</p>
+              }
+            </div>
+          )}
         </div>
 
         <div className="mb-5">
-          <label
-            htmlFor="Ship_from"
-            className="block text-sm font-medium text-gray-900"
-          >
+          <label htmlFor="Ship_from" className="block text-sm font-medium text-gray-900">
             Shipment From
           </label>
           <input
@@ -180,19 +185,23 @@ const EditShipmentForm: React.FC<EditShipmentFormProps> = ({ shipment }) => {
             name="Ship_from"
             id="Ship_from"
             defaultValue={shipment.Ship_from}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             placeholder="Shipment from..."
           />
-          <div id="Ship_from-error" aria-live="polite" aria-atomic="true">
-            <p className="mt-2 text-sm text-red-500">{state?.Error?.Ship_from}</p>
-          </div>
+          {state?.Error?.Ship_from && (
+            <div className="mt-2 text-sm text-red-500">
+              {Array.isArray(state.Error.Ship_from) 
+                ? state.Error.Ship_from.map((error, index) => (
+                    <p key={index}>{error}</p>
+                  ))
+                : <p>{state.Error.Ship_from}</p>
+              }
+            </div>
+          )}
         </div>
 
         <div className="mb-5">
-          <label
-            htmlFor="Ship_destination"
-            className="block text-sm font-medium text-gray-900"
-          >
+          <label htmlFor="Ship_destination" className="block text-sm font-medium text-gray-900">
             Shipment Destination
           </label>
           <input
@@ -200,123 +209,202 @@ const EditShipmentForm: React.FC<EditShipmentFormProps> = ({ shipment }) => {
             name="Ship_destination"
             id="Ship_destination"
             defaultValue={shipment.Ship_destination}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             placeholder="Shipment destination..."
           />
-          <div id="Ship_destination-error" aria-live="polite" aria-atomic="true">
-            <p className="mt-2 text-sm text-red-500">{state?.Error?.Ship_destination}</p>
-          </div>
+          {state?.Error?.Ship_destination && (
+            <div className="mt-2 text-sm text-red-500">
+              {Array.isArray(state.Error.Ship_destination) 
+                ? state.Error.Ship_destination.map((error, index) => (
+                    <p key={index}>{error}</p>
+                  ))
+                : <p>{state.Error.Ship_destination}</p>
+              }
+            </div>
+          )}
         </div>
 
-        {products.map((product, index) => (
-          <div key={index} className="mb-5 flex items-end space-x-2">
-            <div className="flex-grow">
-              <label
-                htmlFor={`Product_${index}`}
-                className="block text-sm font-medium text-gray-900"
-              >
-                Product Name
-              </label>
-              <input
-                type="text"
-                id={`Product_${index}`}
-                value={product.Product}
-                onChange={(e) => handleProductChange(index, 'Product', e.target.value)}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                placeholder="Product Name..."
-              />
-            </div>
-            <div className="flex-grow">
-              <label
-                htmlFor={`Capacity_${index}`}
-                className="block text-sm font-medium text-gray-900"
-              >
-                Capacity
-              </label>
-              <input
-                type="number"
-                id={`Capacity_${index}`}
-                value={product.Capacity}
-                onChange={(e) => handleProductChange(index, 'Capacity', e.target.value)}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                placeholder="Product Capacity..."
-              />
-            </div>
-            <div className="flex-grow">
-              <label
-                htmlFor={`Description_${index}`}
-                className="block text-sm font-medium text-gray-900"
-              >
-                Description
-              </label>
-              <input
-                type="text"
-                id={`Description_${index}`}
-                value={product.Description}
-                onChange={(e) => handleProductChange(index, 'Description', e.target.value)}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                placeholder="Product Description..."
-              />
-            </div>
-            {index > 0 && (
-              <button
-                type="button"
-                onClick={() => removeProduct(index)}
-                className="p-2.5 text-red-500 hover:text-red-700"
-              >
-                <XCircle size={20} />
-              </button>
-            )}
-            {index === products.length - 1 && (
-              <button
-                type="button"
-                onClick={addProduct}
-                className="p-2.5 text-blue-500 hover:text-blue-700"
-              >
-                <PlusCircle size={20} />
-              </button>
-            )}
-          </div>
-        ))}
 
-        {/* Document Upload Section */}
-        <div className="mb-5">
-          <label
-            htmlFor="document"
-            className="block text-sm font-medium text-gray-900 mb-2"
-          >
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-900">Products</h2>
+            <button
+              type="button"
+              onClick={addProduct}
+              className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+            >
+              <PlusCircle className="w-5 h-5 mr-2" />
+              Add Product
+            </button>
+          </div>
+
+          <div className="space-y-4">
+            {products.map((product, index) => (
+              <div
+                key={index}
+                className="p-6 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200"
+              >
+                <div className="relative">
+                  <div className="absolute -top-3 -left-3 bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-medium">
+                    {index + 1}
+                  </div>
+
+                  <div className="absolute -top-3 -right-3">
+                    <button
+                      type="button"
+                      onClick={() => removeProduct(index)}
+                      className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-red-100 text-red-600 hover:bg-red-200 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+                      title="Remove Product"
+                    >
+                      <XCircle className="w-5 h-5" />
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+                    <div className="space-y-2">
+                      <label
+                        htmlFor={`Product-${index}`}
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Product Name
+                      </label>
+                      <input
+                        type="text"
+                        id={`Product-${index}`}
+                        value={product.Product}
+                        onChange={(e) => handleProductChange(index, 'Product', e.target.value)}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm bg-white px-4 py-2 border hover:border-blue-400 transition-colors duration-200"
+                        placeholder="Enter product name"
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label
+                        htmlFor={`Capacity-${index}`}
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Capacity
+                      </label>
+                      <input
+                        type="number"
+                        id={`Capacity-${index}`}
+                        value={product.Capacity}
+                        onChange={(e) => handleProductChange(index, 'Capacity', e.target.value)}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm bg-white px-4 py-2 border hover:border-blue-400 transition-colors duration-200"
+                        placeholder="Enter capacity"
+                        min="0"
+                        step="1"
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label
+                        htmlFor={`Description-${index}`}
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Description
+                      </label>
+                      <input
+                        type="text"
+                        id={`Description-${index}`}
+                        value={product.Description}
+                        onChange={(e) => handleProductChange(index, 'Description', e.target.value)}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm bg-white px-4 py-2 border hover:border-blue-400 transition-colors duration-200"
+                        placeholder="Enter description"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  {/* Validation Error Messages */}
+                  {state?.Error?.Product && index === 0 && (
+                    <div className="mt-2 text-sm text-red-500">
+                      {Array.isArray(state.Error.Product)
+                        ? state.Error.Product.map((error, i) => (
+                            <p key={i}>{error}</p>
+                          ))
+                        : <p>{state.Error.Product}</p>
+                      }
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Empty State */}
+          {products.length === 0 && (
+            <div className="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+              <div className="flex flex-col items-center justify-center space-y-4">
+                <div className="text-gray-400">
+                  <PlusCircle className="w-12 h-12" />
+                </div>
+                <div className="space-y-1">
+                  <p className="text-gray-500 text-sm">No products added yet</p>
+                  <button
+                    type="button"
+                    onClick={addProduct}
+                    className="text-blue-600 hover:text-blue-700 font-medium text-sm"
+                  >
+                    Add your first product
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="mb-8 space-y-4">
+          <label className="block text-sm font-medium text-gray-900">
             Upload Document
           </label>
-          <div className="flex items-center space-x-2">
-            <label className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-sm cursor-pointer hover:bg-gray-50">
+          <div className="flex items-center justify-center w-full">
+            <label
+              htmlFor="document"
+              className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-50 border-gray-300"
+            >
+              <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                {uploading ? (
+                  <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+                ) : (
+                  <Upload className="w-8 h-8 mb-4 text-gray-500" />
+                )}
+                <p className="mb-2 text-sm text-gray-500">
+                  {uploading ? 'Uploading...' : 
+                   (uploadedFile || shipment.document_url) ? 'Document uploaded successfully!' :
+                   'Click or drag and drop to upload document'}
+                </p>
+                <p className="text-xs text-gray-500">PDF, DOC, DOCX or TXT (MAX. 10MB)</p>
+              </div>
               <input
                 type="file"
+                name="document"
                 id="document"
                 onChange={handleFileUpload}
+                accept=".pdf,.doc,.docx,.txt"
                 className="hidden"
                 disabled={uploading}
               />
-              {uploading ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
-              ) : (
-                <Upload className="w-5 h-5" />
-              )}
-              <span className="ml-2">{uploading ? 'Uploading...' : 'Choose File'}</span>
             </label>
-            {(uploadedFile || shipment.document_url) && (
-              <div className="flex-1 text-sm text-gray-600">
-                <p>Uploaded: {uploadedFile?.document_name || shipment.document_name}</p>
-                <a 
-                  href={uploadedFile?.document_url || shipment.document_url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-blue-500 hover:text-blue-700"
-                >
-                  View Document
-                </a>
-              </div>
-            )}
           </div>
+
+          {(uploadedFile || shipment.document_url) && (
+            <div className="flex items-center space-x-2 text-sm text-gray-600">
+              <div className="flex-1 truncate">
+                Uploaded: {uploadedFile?.document_name || shipment.document_name}
+              </div>
+              <a 
+                href={uploadedFile?.document_url || shipment.document_url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:text-blue-700"
+              >
+                View Document
+              </a>
+            </div>
+          )}
         </div>
 
         <SubmitButton label="Update Shipment" />
