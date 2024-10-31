@@ -26,6 +26,9 @@ const ITEMS_PER_PAGE = 5;
 export const createShipment = async (prevState: any, formData: FormData) => {
   const rawData = Object.fromEntries(formData.entries());
   
+  // Debug log
+  console.log('Raw form data:', rawData);
+  
   const shipmentData: ShipmentInput = {
     id: rawData.id as string,
     Status: rawData.Status as string,
@@ -50,7 +53,8 @@ export const createShipment = async (prevState: any, formData: FormData) => {
     shipmentData.Description = descriptions as string[];
   }
 
-  // Handle document data if present
+  // Handle document data if present - Add debug logging
+  console.log('Document URL from form:', rawData.document_url);
   if (rawData.document_url) {
     shipmentData.document_url = rawData.document_url as string;
     shipmentData.document_name = rawData.document_name as string;
@@ -58,19 +62,25 @@ export const createShipment = async (prevState: any, formData: FormData) => {
     shipmentData.uploaded_at = new Date();
   }
 
+  // Debug log
+  console.log('Shipment data before validation:', shipmentData);
+
   const validatedFields = ShipmentSchema.safeParse(shipmentData);
 
   if (!validatedFields.success) {
+    console.log('Validation errors:', validatedFields.error.flatten().fieldErrors);
     return {
       Error: validatedFields.error.flatten().fieldErrors,
     };
   }
 
   try {
-    await prisma.shipment.create({
+    const created = await prisma.shipment.create({
       data: validatedFields.data,
     });
+    console.log('Created shipment:', created);
   } catch (error) {
+    console.error('Creation error:', error);
     return { message: "Failed to create shipment" };
   }
 

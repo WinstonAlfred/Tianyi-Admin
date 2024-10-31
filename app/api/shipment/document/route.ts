@@ -38,13 +38,10 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({
-      message: 'Upload successful',
-      data: {
-        document_name: file.name,
-        document_type: file.type,
-        document_url: (response as any).secure_url,
-        uploaded_at: new Date().toISOString()
-      }
+      url: (response as any).secure_url,
+      name: file.name,
+      type: file.type,
+      uploaded_at: new Date().toISOString()
     });
 
   } catch (error) {

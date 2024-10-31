@@ -48,6 +48,8 @@ const ShipmentForm = () => {
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [documentUrl, setDocumentUrl] = useState<string | null>(null);
+  const [documentName, setDocumentName] = useState<string | null>(null);
+  const [documentType, setDocumentType] = useState<string | null>(null);
 
   const addProduct = () => {
     setProducts([...products, { Product: '', Capacity: 0, Description: '' }]);
@@ -70,23 +72,16 @@ const ShipmentForm = () => {
     setProducts(newProducts);
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
-    } else {
-      setFile(null);
-    }
-  };
-
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
+      const selectedFile = e.target.files[0];
+      setFile(selectedFile);
       setUploading(true);
       setUploadError(null);
       setUploadSuccess(false);
   
       const formData = new FormData();
-      formData.append('file', e.target.files[0]);
+      formData.append('file', selectedFile);
   
       try {
         const response = await fetch('/api/shipment/document', {
@@ -99,9 +94,20 @@ const ShipmentForm = () => {
         }
   
         const data = await response.json();
+        
+        // Use the values from the server response
         setDocumentUrl(data.url);
+        setDocumentName(data.name);
+        setDocumentType(data.type);
         setUploadSuccess(true);
+        
+        console.log('Document upload successful:', {
+          url: data.url,
+          name: data.name,
+          type: data.type
+        });
       } catch (error) {
+        console.error('Upload error:', error);
         setUploadError('Failed to upload document. Please try again.');
       } finally {
         setUploading(false);
@@ -109,22 +115,34 @@ const ShipmentForm = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  const formData = new FormData(e.currentTarget);
+
+  // Add products to formData
+  products.forEach((product, index) => {
+    formData.append('Product', product.Product);
+    formData.append('Capacity', product.Capacity.toString());
+    formData.append('Description', product.Description);
+  });
   
-    products.forEach((product) => {
-      formData.append('Product', product.Product);
-      formData.append('Capacity', product.Capacity.toString());
-      formData.append('Description', product.Description);
+  // Add document information to formData
+  if (documentUrl) {
+    formData.append('document_url', documentUrl);
+    formData.append('document_name', documentName || '');
+    formData.append('document_type', documentType || '');
+    
+    // Add debug logging
+    console.log('Document data being sent:', {
+      url: documentUrl,
+      name: documentName,
+      type: documentType
     });
-    
-    if (documentUrl) {
-      formData.append('document_url', documentUrl);
-    }
-    
-    formAction(formData);
-  };
+  }
+  
+  // Submit the form
+  formAction(formData);
+};
 
   return (
     <div className="max-w-4xl mx-auto p-4">
@@ -220,54 +238,60 @@ const ShipmentForm = () => {
         </div>
 
         <div className="mb-8 space-y-4">
-  <label className="block text-sm font-medium text-gray-900">
-    Upload Document
-  </label>
-  <div className="flex items-center justify-center w-full">
-    <label
-      htmlFor="document"
-      className={`flex flex-col items-center justify-center w-full h-48 border-2 border-dashed rounded-lg cursor-pointer 
-        ${uploading ? 'bg-gray-50' : 'hover:bg-gray-50'} 
-        ${uploadSuccess ? 'border-green-300' : 'border-gray-300'}`}
-    >
-      <div className="flex flex-col items-center justify-center pt-5 pb-6">
-        {uploading ? (
-          <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
-        ) : (
-          <Upload className={`w-8 h-8 mb-4 ${uploadSuccess ? 'text-green-500' : 'text-gray-500'}`} />
-        )}
-        <p className="mb-2 text-sm text-gray-500">
-          {uploading ? 'Uploading...' : 
-           uploadSuccess ? 'Document uploaded successfully!' :
-           'Click or drag and drop to upload document'}
-        </p>
-        <p className="text-xs text-gray-500">PDF, DOC, DOCX or TXT (MAX. 10MB)</p>
-      </div>
-      <input
-        type="file"
-        name="document"
-        id="document"
-        onChange={handleFileUpload}
-        accept=".pdf,.doc,.docx,.txt"
-        className="hidden"
-        disabled={uploading}
-      />
-    </label>
-  </div>
-  
-  {file && !uploadError && (
-    <div className="flex items-center space-x-2 text-sm text-gray-600">
-      <div className="flex-1 truncate">
-        Selected file: {file.name}
-      </div>
-      {uploadSuccess && (
-        <div className="flex items-center text-green-600">
-          <span className="text-xs">✓ Uploaded</span>
+          <label className="block text-sm font-medium text-gray-900">
+            Upload Document
+          </label>
+          <div className="flex items-center justify-center w-full">
+            <label
+              htmlFor="document"
+              className={`flex flex-col items-center justify-center w-full h-48 border-2 border-dashed rounded-lg cursor-pointer 
+                ${uploading ? 'bg-gray-50' : 'hover:bg-gray-50'} 
+                ${uploadSuccess ? 'border-green-300' : 'border-gray-300'}`}
+            >
+              <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                {uploading ? (
+                  <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+                ) : (
+                  <Upload className={`w-8 h-8 mb-4 ${uploadSuccess ? 'text-green-500' : 'text-gray-500'}`} />
+                )}
+                <p className="mb-2 text-sm text-gray-500">
+                  {uploading ? 'Uploading...' : 
+                   uploadSuccess ? 'Document uploaded successfully!' :
+                   'Click or drag and drop to upload document'}
+                </p>
+                <p className="text-xs text-gray-500">PDF, DOC, DOCX or TXT (MAX. 10MB)</p>
+              </div>
+              <input
+                type="file"
+                name="document"
+                id="document"
+                onChange={handleFileUpload}
+                accept=".pdf,.doc,.docx,.txt"
+                className="hidden"
+                disabled={uploading}
+              />
+            </label>
+          </div>
+          
+          {file && !uploadError && (
+            <div className="flex items-center space-x-2 text-sm text-gray-600">
+              <div className="flex-1 truncate">
+                Selected file: {file.name}
+              </div>
+              {uploadSuccess && (
+                <div className="flex items-center text-green-600">
+                  <span className="text-xs">✓ Uploaded</span>
+                </div>
+              )}
+            </div>
+          )}
+          
+          {uploadError && (
+            <div className="text-sm text-red-500">
+              {uploadError}
+            </div>
+          )}
         </div>
-      )}
-    </div>
-  )}
-</div>
 
 
 <div className="mb-8">

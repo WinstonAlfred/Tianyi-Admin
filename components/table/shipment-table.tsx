@@ -104,7 +104,7 @@ const ShipmentTable: React.FC<ShipmentTableProps> = async ({ query = "", current
                       >
                         {shipment.document_name}
                       </a>
-                      <span className="text-xs text-gray-500">
+                      <span className ="text-xs text-gray-500">
                         ({shipment.uploaded_at ? new Date(shipment.uploaded_at).toLocaleDateString() : 'Date not available'})
                       </span>
                     </div>

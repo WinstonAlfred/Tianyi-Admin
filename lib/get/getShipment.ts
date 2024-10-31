@@ -12,10 +12,26 @@ export const getShipments = async (query: string, offset: number, limit: number)
             { Product: { hasSome: [query] } },
           ],
         },
+        select: {
+          id: true,
+          Status: true,
+          Ship_from: true,
+          Ship_destination: true,
+          Product: true,
+          Capacity: true,
+          Description: true,
+          document_name: true,
+          document_type: true,
+          document_url: true,
+          uploaded_at: true,
+        },
         skip: offset,
         take: limit,
         orderBy: { id: 'asc' },
       });
+
+      console.log('Fetched shipments:', shipments); // Debug log
+
       return shipments;
     } catch (error) {
       console.error('Error fetching shipments:', error);
