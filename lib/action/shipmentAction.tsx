@@ -116,11 +116,18 @@ export const updateShipment = async (id: string, prevState: any, formData: FormD
   }
 
   // Handle document data if present
+  // Check if there's a new document uploaded (Cloudinary URL present)
   if (rawData.document_url) {
-    shipmentData.document_url = rawData.document_url as string;
-    shipmentData.document_name = rawData.document_name as string;
-    shipmentData.document_type = rawData.document_type as string;
-    shipmentData.uploaded_at = new Date();
+    // Include document-related fields in the shipment data
+    const documentUpdate = {
+      document_url: rawData.document_url as string,
+      document_name: rawData.document_name as string,
+      document_type: rawData.document_type as string,
+      uploaded_at: new Date(),
+    };
+    
+    // Merge document data with shipment data
+    Object.assign(shipmentData, documentUpdate);
   }
 
   const validatedFields = ShipmentSchema.safeParse(shipmentData);
@@ -132,11 +139,27 @@ export const updateShipment = async (id: string, prevState: any, formData: FormD
   }
 
   try {
-    await prisma.shipment.update({
+    // Update shipment with all data including document information
+    const updatedShipment = await prisma.shipment.update({
       where: { id },
-      data: validatedFields.data,
+      data: {
+        ...validatedFields.data,
+        // Ensure document fields are explicitly included in the update
+        ...(rawData.document_url && {
+          document_url: rawData.document_url as string,
+          document_name: rawData.document_name as string,
+          document_type: rawData.document_type as string,
+          uploaded_at: new Date(),
+        }),
+      },
     });
+
+    if (!updatedShipment) {
+      throw new Error('Failed to update shipment');
+    }
+
   } catch (error) {
+    console.error('Error updating shipment:', error);
     return { message: "Failed to update shipment" };
   }
 

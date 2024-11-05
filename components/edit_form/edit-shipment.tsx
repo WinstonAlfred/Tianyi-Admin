@@ -73,23 +73,29 @@ const EditShipmentForm: React.FC<EditShipmentFormProps> = ({ shipment }) => {
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
+  
     setUploading(true);
     const formData = new FormData();
     formData.append('file', file);
-
+  
     try {
-      const response = await fetch('/api/upload', {
+      const response = await fetch('/api/shipment/document', {
         method: 'POST',
         body: formData,
       });
-
+  
       if (!response.ok) {
         throw new Error('Upload failed');
       }
-
+  
       const data = await response.json();
-      setUploadedFile(data.data);
+      console.log('Upload successful:', data); // Log the response for debugging
+      setUploadedFile({
+        document_name: data.name,
+        document_type: data.type,
+        document_url: data.url,
+        uploaded_at: data.uploaded_at,
+      });
     } catch (error) {
       console.error('Upload error:', error);
       alert('Failed to upload file');
