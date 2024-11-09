@@ -259,7 +259,7 @@ const ShipmentForm = () => {
       >
         <div className="relative">
           {/* Product Number Label */}
-          <div className="absolute -top-3 -left-3 bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-medium">
+          <div className="absolute -top-3 -left-3 bg-blue-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-sm font-medium">
             {index + 1}
           </div>
           
